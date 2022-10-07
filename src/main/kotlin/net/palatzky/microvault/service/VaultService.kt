@@ -1,7 +1,9 @@
 package net.palatzky.microvault.service
 
 import net.palatzky.microvault.encryption.AsymmetricCryptor
+import net.palatzky.microvault.encryption.Encryption
 import java.io.*
+import java.nio.file.Path
 import java.security.*
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
@@ -38,7 +40,7 @@ class VaultService {
 	}
 
 
-	fun create(password: String) {
+	fun create(path: Path, password: String, symmetricEncryption: Boolean) {
 		var keyPair = AsymmetricCryptor.createKeyPair();
 
 ////
