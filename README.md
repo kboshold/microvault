@@ -1,4 +1,7 @@
 # MicroVault
+<div align="center">
+    <img src="src/main/resources/assets/logo.svg" width="80%"/>
+</div>
 
 ## Usage
 
