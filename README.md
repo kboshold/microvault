@@ -25,11 +25,11 @@ $(mv close) # export MICRO_VAULT_SESSION=
 
 ## Encryption Modes
 
-| Mode       | Encryption                            | Public writable    | Public readable    |
-|------------|---------------------------------------|--------------------|--------------------|
-| symmetric  | AES/GCM/NoPadding                     | :x:                | :x:                |
-| asymmetric | RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING | :heavy_check_mark: | :x:                |
-| plain      | -                                     | :heavy_check_mark: | :heavy_check_mark: |
+| Mode       | Encryption                              | Public writable    | Public readable    |
+|------------|-----------------------------------------|--------------------|--------------------|
+| symmetric  | `AES/GCM/NoPadding`                     | :x:                | :x:                |
+| asymmetric | `RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING` | :heavy_check_mark: | :x:                |
+| plain      | -                                       | :heavy_check_mark: | :heavy_check_mark: |
 
 ## Vault file
 
