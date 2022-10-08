@@ -3,10 +3,13 @@
 ## Usage
 
 ```shell
+# create a new vault with given password at the given location
 mv --password=YourPassword --file=./micro.vault create
 
-$(mv --password=YourPassword --file=./micro.vault open) # export MICRO_VAULT_SESSION=<SESSION_DATA>
+# open a session to continues edit the vault. The command substitution is required to set a environment variable
+$(mv --password=YourPassword --file=./micro.vault open -e) # MICRO_VAULT_SESSION=<SESSION_DATA>
 
+# add data to the vault
 mv set db.user Admin
 mv set db.password Admin123
 
@@ -14,13 +17,23 @@ mv set docker.user MicroVault
 mv set docker.email microvault@example.com
 mv set docker.password MicroVault123
 
+# get data from the vault
 mv get docker.password
 
+# list content of the vault
 mv list
 
+# publish all data as environment variables
 $(mv publish environment) # export DOCKER_PASSWORD=<docker.password>
 
-$(mv close) # export MICRO_VAULT_SESSION=
+# close the vault again
+$(mv close) # MICRO_VAULT_SESSION=
+
+# Use variable as command
+MV="mv --password=YourPassword --file=./micro.vault"
+$MV get docker.password
+$MV publish kubernetes --parameter name=my-secrets
+
 ```
 
 ## Encryption Modes
