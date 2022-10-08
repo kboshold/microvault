@@ -1,5 +1,11 @@
 package net.palatzky.microvault.service
 
+import net.palatzky.microvault.encryption.*
+import net.palatzky.microvault.encryption.asymmetric.RsaEcbDecryption
+import net.palatzky.microvault.encryption.asymmetric.RsaEcbEncryption
+import net.palatzky.microvault.encryption.symmetric.AesGcmDecryption
+import net.palatzky.microvault.encryption.symmetric.AesGcmEncryption
+import net.palatzky.microvault.util.toPair
 import java.nio.file.Path
 import java.security.Key
 import java.security.KeyPair
@@ -41,24 +47,38 @@ class VaultService {
 
 	}
 
+	private fun createDecryption(mode: EncryptionMode, key: Key): Decryption {
+		return when(mode) {
+			EncryptionMode.asymmetric -> RsaEcbDecryption(key)
+			EncryptionMode.symmetric -> AesGcmDecryption(key)
+			EncryptionMode.plain -> PlainDecryption()
+		}
+	}
+
+	private fun createEncryption(mode: EncryptionMode, key: Key): Encryption {
+		return when(mode) {
+			EncryptionMode.asymmetric -> RsaEcbEncryption(key)
+			EncryptionMode.symmetric -> AesGcmEncryption(key)
+			EncryptionMode.plain -> PlainEncryption()
+		}
+	}
+
 	fun create(path: Path, password: String, mode: EncryptionMode) {
+		// create write/read key depending on encryption mode.
 		val (writeKey, readKey) = when(mode) {
-			EncryptionMode.asymmetric -> {
-				val keyPair = this.createKeyPair()
-				keyPair.public to keyPair.private
-			}
-			EncryptionMode.symmetric -> {
-				val key = this.createSecretKey()
-				key to key
-			}
-			EncryptionMode.plain -> {
-				null to null
-			}
+			EncryptionMode.asymmetric -> this.createKeyPair().let { it.public to it.private }
+			EncryptionMode.symmetric -> this.createSecretKey().toPair()
+			EncryptionMode.plain -> EmptyKey().toPair()
 		}
 
-		val encoder =  Base64.getEncoder();
-		val encodedWriteKey = encoder.encode(writeKey?.encoded ?: ByteArray(0)).toString(Charsets.UTF_8);
-		val encodedReadKey = encoder.encode(readKey?.encoded ?: ByteArray(0)).toString(Charsets.UTF_8);
+		// encode write/read key using base64
+		val encoder =  Base64.getEncoder()
+		val encodedWriteKey = encoder.encode(writeKey.encoded).toString(Charsets.UTF_8)
+		val encodedReadKey = encoder.encode(readKey.encoded).toString(Charsets.UTF_8)
+
+		// create decryption/encryption depending on mode
+//		val decryption = createDecryption(mode, writeKey)
+//		val encryption = createEncryption(mode, readKey)
 
 
 //		var keyPair = AsymmetricCryptor.createKeyPair();
