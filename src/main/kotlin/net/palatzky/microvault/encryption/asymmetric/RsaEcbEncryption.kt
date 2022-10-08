@@ -1,0 +1,15 @@
+package net.palatzky.microvault.encryption.asymmetric
+
+import net.palatzky.microvault.encryption.Encryption
+import java.security.Key
+import javax.crypto.Cipher
+
+class RsaEcbEncryption (
+	private val key: Key
+) : Encryption{
+	override fun encrypt(content: String, authenticationData: String?): ByteArray {
+		val cipher = Cipher.getInstance("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING")
+		cipher.init(Cipher.ENCRYPT_MODE, key)
+		return cipher.doFinal(content.toByteArray(Charsets.UTF_8))
+	}
+}

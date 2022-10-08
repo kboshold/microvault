@@ -13,9 +13,12 @@ import java.util.*
 class CreateCommand(
 	private val vaultService: VaultService
 ) : Runnable {
+	enum class Mode {
+		plain, asymmetric, symmetric
+	}
 
-	@CommandLine.Option(names = ["-s", "--symmetric"], description = ["Enables symmetric encryption"], defaultValue = false.toString())
-	var symmetric: Boolean = false
+	@CommandLine.Option(names = ["-m", "--mode"], description = ["Enables symmetric encryption"], defaultValue = false.toString())
+	var mode: Mode = Mode.asymmetric
 
 	@CommandLine.Parameters(index = "0", description = ["Path of the micro vault"])
 	lateinit var vaultPath: Path;
