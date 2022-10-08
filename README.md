@@ -43,11 +43,11 @@ $MV open --interative
 
 ## Encryption Modes
 
-| Mode       | Encryption                              | Public writable    | Public readable    |
-|------------|-----------------------------------------|--------------------|--------------------|
-| symmetric  | `AES/GCM/NoPadding`                     | :x:                | :x:                |
-| asymmetric | `RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING` | :heavy_check_mark: | :x:                |
-| plain      | -                                       | :heavy_check_mark: | :heavy_check_mark: |
+| Mode       | Encryption                              | Key Length | Public writable    | Public readable    |
+|------------|-----------------------------------------|------------|--------------------|--------------------|
+| symmetric  | `AES/GCM/NoPadding`                     | 256        | :x:                | :x:                |
+| asymmetric | `RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING` | 4096       | :heavy_check_mark: | :x:                |
+| plain      | -                                       |            | :heavy_check_mark: | :heavy_check_mark: |
 
 ## Vault file
 

@@ -1,10 +1,10 @@
 package net.palatzky.microvault.service
 
-import net.palatzky.microvault.encryption.asymmetric.AsymmetricCryptor
 import java.nio.file.Path
-import java.security.*
-import java.security.spec.PKCS8EncodedKeySpec
-import java.security.spec.X509EncodedKeySpec
+import java.security.Key
+import java.security.KeyPair
+import java.security.KeyPairGenerator
+import java.security.SecureRandom
 import java.util.*
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
@@ -12,6 +12,10 @@ import javax.enterprise.context.Dependent
 
 @Dependent
 class VaultService {
+
+	enum class EncryptionMode {
+		plain, asymmetric, symmetric
+	}
 
 	fun publish() {
 		println("HELLO TEST")
@@ -37,44 +41,62 @@ class VaultService {
 
 	}
 
+	fun create(path: Path, password: String, mode: EncryptionMode) {
+		val (writeKey, readKey) = when(mode) {
+			EncryptionMode.asymmetric -> {
+				val keyPair = this.createKeyPair()
+				keyPair.public to keyPair.private
+			}
+			EncryptionMode.symmetric -> {
+				val key = this.createSecretKey()
+				key to key
+			}
+			EncryptionMode.plain -> {
+				null to null
+			}
+		}
 
-	fun create(path: Path, password: String, symmetricEncryption: Boolean) {
-		var keyPair = AsymmetricCryptor.createKeyPair();
+		val encoder =  Base64.getEncoder();
+		val encodedWriteKey = encoder.encode(writeKey?.encoded ?: ByteArray(0)).toString(Charsets.UTF_8);
+		val encodedReadKey = encoder.encode(readKey?.encoded ?: ByteArray(0)).toString(Charsets.UTF_8);
 
-////
-//		var outStream = ByteArrayOutputStream()
-//		val out = ObjectOutputStream(outStream)
-//		out.writeObject(keyPair)
-//		out.flush();
-//		out.close()
-////
-		var encoder =  Base64.getEncoder();
-		println("PRIVATE1 " + keyPair.private);
-		println("PUBLIC1 " +  keyPair.public);
+
+//		var keyPair = AsymmetricCryptor.createKeyPair();
 //
-		var encodedPrivateKey =  encoder.encode(keyPair.private.encoded).toString(Charsets.UTF_8);
-		var encodedPublicKey =   encoder.encode(keyPair.public.encoded).toString(Charsets.UTF_8);
-		println("PRIVATE1 " + encodedPrivateKey);
-		println("PUBLIC1 " + encodedPublicKey);
-
-		var encryptor = AsymmetricCryptor(keyPair);
+//////
+////		var outStream = ByteArrayOutputStream()
+////		val out = ObjectOutputStream(outStream)
+////		out.writeObject(keyPair)
+////		out.flush();
+////		out.close()
+//////
+//		var encoder =  Base64.getEncoder();
+//		println("PRIVATE1 " + keyPair.private);
+//		println("PUBLIC1 " +  keyPair.public);
+////
+//		var encodedPrivateKey =  encoder.encode(keyPair.private.encoded).toString(Charsets.UTF_8);
+//		var encodedPublicKey =   encoder.encode(keyPair.public.encoded).toString(Charsets.UTF_8);
+//		println("PRIVATE1 " + encodedPrivateKey);
+//		println("PUBLIC1 " + encodedPublicKey);
 //
-		var data = encryptor.encrypt("Hallo Welt");
-		println("ENCRYPTED " + data);
-		println("DECRYPTED " + encryptor.decrypt(data));
-		println("===========================");
-
-		var x = KeyPairGenerator.getInstance("RSA")
-
-		var decoder =  Base64.getDecoder();
-		val privateKeySpec = PKCS8EncodedKeySpec(decoder.decode(encodedPrivateKey))
-		val publicKeySpec = X509EncodedKeySpec(decoder.decode(encodedPublicKey))
-		val kf = KeyFactory.getInstance("RSA")
-		var privateKey = kf.generatePrivate(privateKeySpec)
-		var publicKey = kf.generatePublic(publicKeySpec);
-		var encryptor2 = AsymmetricCryptor(KeyPair(publicKey, privateKey))
-		println("ENCRYPTED2 " + data);
-		println("DECRYPTED2 " + encryptor2.decrypt(data));
+//		var encryptor = AsymmetricCryptor(keyPair);
+////
+//		var data = encryptor.encrypt("Hallo Welt");
+//		println("ENCRYPTED " + data);
+//		println("DECRYPTED " + encryptor.decrypt(data));
+//		println("===========================");
+//
+//		var x = KeyPairGenerator.getInstance("RSA")
+//
+//		var decoder =  Base64.getDecoder();
+//		val privateKeySpec = PKCS8EncodedKeySpec(decoder.decode(encodedPrivateKey))
+//		val publicKeySpec = X509EncodedKeySpec(decoder.decode(encodedPublicKey))
+//		val kf = KeyFactory.getInstance("RSA")
+//		var privateKey = kf.generatePrivate(privateKeySpec)
+//		var publicKey = kf.generatePublic(publicKeySpec);
+//		var encryptor2 = AsymmetricCryptor(KeyPair(publicKey, privateKey))
+//		println("ENCRYPTED2 " + data);
+//		println("DECRYPTED2 " + encryptor2.decrypt(data));
 //		var encryptor = A();
 //
 //		var value = encryptor.encrypt("Hallo das ist ein Test");
@@ -110,7 +132,7 @@ class VaultService {
 
 	private fun createKeyPair(): KeyPair {
 		val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
-		keyPairGenerator.initialize(2056, SecureRandom());
+		keyPairGenerator.initialize(4096, SecureRandom());
 		return keyPairGenerator.generateKeyPair()
 	}
 
