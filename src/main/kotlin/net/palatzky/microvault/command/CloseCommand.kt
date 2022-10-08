@@ -9,9 +9,6 @@ class CloseCommand(
 	private val vaultService: VaultService
 ) : Runnable {
 
-	@CommandLine.Parameters(index = "0", description = ["Path of the micro vault"])
-	lateinit var vaultPath: File;
-
 	override fun run() {
 	}
 }

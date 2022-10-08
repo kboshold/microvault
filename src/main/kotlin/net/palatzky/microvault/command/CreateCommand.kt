@@ -21,9 +21,6 @@ class CreateCommand(
 	@CommandLine.Option(names = ["-m", "--mode"], description = ["Enables symmetric encryption"], defaultValue = false.toString())
 	var mode: Mode = Mode.asymmetric
 
-	@CommandLine.Parameters(index = "0", description = ["Path of the micro vault"])
-	lateinit var vaultPath: Path;
-
 	@CommandLine.ParentCommand
 	lateinit var entryCommand: EntryCommand;
 

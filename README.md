@@ -34,6 +34,11 @@ MV="mv --password=YourPassword --file=./micro.vault"
 $MV get docker.password
 $MV publish kubernetes --parameter name=my-secrets
 
+# open vault in interative mode
+$MV open --interative
+> get docker.password
+> set docker.password Docker123
+> exit
 ```
 
 ## Encryption Modes
