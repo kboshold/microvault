@@ -1,8 +1,8 @@
-package net.palatzky.microvault.encryption
+package net.palatzky.microvault.encryption.symmetric
 
+import net.palatzky.microvault.encryption.Decryption
+import net.palatzky.microvault.encryption.Encryption
 import java.nio.ByteBuffer
-import java.security.KeyPair
-import java.security.KeyPairGenerator
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator

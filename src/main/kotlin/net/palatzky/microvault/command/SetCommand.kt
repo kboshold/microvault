@@ -3,7 +3,7 @@ package net.palatzky.microvault.command
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
 
-@CommandLine.Command(name = "set", description = ["Sets an entry in the micro vault"])
+@CommandLine.Command(name = "set", aliases = ["s"],  description = ["Sets an entry in the micro vault"])
 class SetCommand(
 	private val vaultService: VaultService
 ) : Runnable {

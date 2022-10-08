@@ -4,7 +4,7 @@ import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
 import java.io.File
 
-@CommandLine.Command(name = "open", description = ["Opens the micro vault"])
+@CommandLine.Command(name = "open", aliases = ["o"],  description = ["Opens the micro vault"])
 class OpenCommand(
 	private val vaultService: VaultService
 ) : Runnable {
@@ -12,8 +12,8 @@ class OpenCommand(
 	@CommandLine.Option(names = ["-t", "--temporary"], description = ["Who will we greet?"], defaultValue = false.toString())
 	private var temporary: Boolean = false
 
-	@CommandLine.Parameters(index = "0", description = ["Path of the micro vault"])
-	lateinit var vaultPath: File;
+	@CommandLine.Option(names = ["-i", "--interactive"], description = ["Password to use for the micro vault"])
+	lateinit var interactive: String
 
 	override fun run() {
 	}

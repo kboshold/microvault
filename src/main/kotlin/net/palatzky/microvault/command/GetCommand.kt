@@ -4,7 +4,7 @@ import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
 import java.io.File
 
-@CommandLine.Command(name = "get", description = ["Returns an entry of the micro vault"])
+@CommandLine.Command(name = "get", aliases = ["g"], description = ["Returns an entry of the micro vault"])
 class GetCommand(
 	private val vaultService: VaultService
 ) : Runnable {
