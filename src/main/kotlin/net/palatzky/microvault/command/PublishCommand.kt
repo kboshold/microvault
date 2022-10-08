@@ -8,12 +8,12 @@ class PublishCommand(
 	private val vaultService: VaultService,
 ): Runnable {
 
-	internal enum class Provider {
-
+	enum class Provider {
+		kubernetes, environment, generic
 	}
 
 	@CommandLine.Parameters(index = "0", description = ["Publishing provider"])
-	lateinit var provider: String
+	lateinit var provider: Provider
 
 	@CommandLine.Option(names = ["-m", "--map"], description = ["Mapping for the export. <ExportKey>=<VaultKey>"])
 	var mapping: Map<String, String> = mapOf()

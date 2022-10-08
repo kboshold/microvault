@@ -13,6 +13,7 @@ import java.util.*
 class CreateCommand(
 	private val vaultService: VaultService
 ) : Runnable {
+
 	enum class Mode {
 		plain, asymmetric, symmetric
 	}
