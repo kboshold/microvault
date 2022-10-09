@@ -9,7 +9,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.spec.GCMParameterSpec
 
 class AesGcmEncryption(
-	private val key: Key,
+	override val key: Key,
 ) : Encryption {
 
 //	val keyGenerator = KeyGenerator.getInstance("AES")

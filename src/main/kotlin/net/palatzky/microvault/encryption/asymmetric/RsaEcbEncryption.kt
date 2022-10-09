@@ -5,7 +5,7 @@ import java.security.Key
 import javax.crypto.Cipher
 
 class RsaEcbEncryption (
-	private val key: Key
+	override val key: Key
 ) : Encryption{
 	override fun encrypt(content: String, authenticationData: String?): ByteArray {
 		val cipher = Cipher.getInstance("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING")

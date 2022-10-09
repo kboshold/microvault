@@ -2,7 +2,7 @@ package net.palatzky.microvault.encryption
 
 import java.security.Key
 
-class EmptyKey : Key {
+object EmptyKey : Key {
 	override fun getAlgorithm(): String {
 		return "none"
 	}

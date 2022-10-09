@@ -6,7 +6,7 @@ import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 
 class AesGcmDecryption(
-	private val key: Key,
+	override val key: Key,
 ): Decryption {
 	companion object {
 		private const val GCM_IV_LENGTH = 12

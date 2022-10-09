@@ -5,7 +5,7 @@ import java.security.Key
 import javax.crypto.Cipher
 
 class RsaEcbDecryption (
-	private val key: Key
+	override val key: Key
 ): Decryption {
 	/*
 				val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
