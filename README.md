@@ -1,6 +1,20 @@
-# MicroVault
 <div align="center">
-    <img src="src/main/resources/assets/logo.svg" width="80%"/>
+	<p>
+	<a href="https://github.com/kpalatzky/microvault#is=awesome">
+            <img src="src/main/resources/assets/logo.svg" alt="MicroVault Logo" width="80%"/>
+        </a>
+    </p>
+    <p>
+    <a href="https://app.dependabot.com/">
+      <img src="https://img.shields.io/badge/Dependabot-active-brightgreen.svg?logo=dependabot" alt="Dependabot active">
+    </a>
+	</p>
+	<p>
+	</p>
+	<hr>
+	<p>
+		Keep your secrets secret. Tool to manage secrets in your public and private repositories. 
+	</p>
 </div>
 
 ## Usage
