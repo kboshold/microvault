@@ -17,7 +17,7 @@ class AesGcmEncryption(
 //	return keyGenerator.generateKey()
 	
 	companion object {
-		private const val GCM_IV_LENGTH = 12
+		const val GCM_IV_LENGTH = 12
 	}
 
 	override fun encrypt(content: String, authenticationData: String?): ByteArray {

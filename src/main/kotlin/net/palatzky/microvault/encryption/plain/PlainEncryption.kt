@@ -1,5 +1,7 @@
-package net.palatzky.microvault.encryption
+package net.palatzky.microvault.encryption.plain
 
+import net.palatzky.microvault.encryption.EmptyKey
+import net.palatzky.microvault.encryption.Encryption
 import java.security.Key
 
 class PlainEncryption() : Encryption {

@@ -8,13 +8,13 @@ class CreateCommand(
 	private val vaultService: VaultService
 ) : Runnable {
 
-	@CommandLine.Option(names = ["-m", "--mode"], description = ["Enables symmetric encryption"], defaultValue = false.toString())
+	@CommandLine.Option(names = ["-m", "--mode"], description = ["Encryption mode"], defaultValue = false.toString())
 	var mode: VaultService.EncryptionMode = VaultService.EncryptionMode.asymmetric
 
 	@CommandLine.ParentCommand
 	lateinit var entryCommand: EntryCommand;
 
 	override fun run() {
-		println("GOT " + this.entryCommand.password)
+		vaultService.create(entryCommand.file, entryCommand.password, this.mode)
 	}
 }

@@ -2,12 +2,15 @@ package net.palatzky.microvault.vault
 
 import net.palatzky.microvault.encryption.Decryption
 import net.palatzky.microvault.encryption.Encryption
+import net.palatzky.microvault.service.VaultService
 import java.nio.file.Path
 
-class MicroVault : Vault {
-
-	private lateinit var encryptor: Encryption
-	private lateinit var decryptor: Decryption
+class MicroVault(
+	override val mode: VaultService.EncryptionMode,
+	override val salt: ByteArray,
+	override val encryption: Encryption,
+	override val decryption: Decryption,
+) : Vault {
 
 	private val data: MutableMap<String, String> = mutableMapOf()
 

@@ -5,9 +5,10 @@ import net.palatzky.microvault.encryption.asymmetric.RsaEcbDecryption
 import net.palatzky.microvault.encryption.asymmetric.RsaEcbEncryption
 import net.palatzky.microvault.encryption.symmetric.AesGcmDecryption
 import net.palatzky.microvault.encryption.symmetric.AesGcmEncryption
-import net.palatzky.microvault.util.toPair
+import net.palatzky.microvault.util.*
 import net.palatzky.microvault.vault.MicroVault
 import net.palatzky.microvault.vault.serialization.MicroVaultSerializer
+import java.nio.file.Files
 import java.nio.file.Path
 import java.security.Key
 import java.security.KeyPair
@@ -37,7 +38,7 @@ class VaultService {
 
 	}
 
-	fun open() {
+	fun open(path: Path, password: String,) {
 
 	}
 
@@ -55,18 +56,16 @@ class VaultService {
 		// create write/read key depending on encryption mode.
 		val (readKey, writeKey) = createReadWriteKey(mode)
 
-		// encode write/read key using base64
-		val encodedWriteKey = encodeKey(writeKey)
-		val encodedReadKey = encodeKey(readKey)
-
 		// create decryption/encryption depending on mode
 		val decryption = createDecryption(mode, writeKey)
 		val encryption = createEncryption(mode, readKey)
 
-		val vault = MicroVault()
-		var vaultSerializer = MicroVaultSerializer(encryption)
+		val salt = createRandomSalt()
+		val vault = MicroVault(mode, salt, encryption, decryption)
+		val vaultSerializer = MicroVaultSerializer()
 
-
+		val stream = Files.newOutputStream(path)
+		vaultSerializer.serialize(vault, stream, password)
 //		var keyPair = AsymmetricCryptor.createKeyPair();
 //
 //////
@@ -130,44 +129,6 @@ class VaultService {
 
 	}
 
-	private fun createSecretKey(): SecretKey {
-		val keyGenerator = KeyGenerator.getInstance("AES")
-		keyGenerator.init(256)
-		return keyGenerator.generateKey()
-	}
-
-	private fun createKeyPair(): KeyPair {
-		val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
-		keyPairGenerator.initialize(4096, SecureRandom());
-		return keyPairGenerator.generateKeyPair()
-	}
-
-	private fun createDecryption(mode: EncryptionMode, key: Key): Decryption {
-		return when(mode) {
-			EncryptionMode.asymmetric -> RsaEcbDecryption(key)
-			EncryptionMode.symmetric -> AesGcmDecryption(key)
-			EncryptionMode.plain -> PlainDecryption()
-		}
-	}
-
-	private fun createEncryption(mode: EncryptionMode, key: Key): Encryption {
-		return when(mode) {
-			EncryptionMode.asymmetric -> RsaEcbEncryption(key)
-			EncryptionMode.symmetric -> AesGcmEncryption(key)
-			EncryptionMode.plain -> PlainEncryption()
-		}
-	}
-
-	private fun createReadWriteKey(mode: EncryptionMode): Pair<Key, Key> {
-		return when(mode) {
-			EncryptionMode.asymmetric -> this.createKeyPair().let { it.private to it.public}
-			EncryptionMode.symmetric -> this.createSecretKey().toPair()
-			EncryptionMode.plain -> EmptyKey.toPair()
-		}
-	}
-
-	private fun encodeKey(key: Key): String {
-		val encoder =  Base64.getEncoder()
-		return encoder.encode(key.encoded).toString(Charsets.UTF_8)
-	}
 }
+
+// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault create --mode=asymmetric
