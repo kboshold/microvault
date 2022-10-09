@@ -13,7 +13,7 @@
 	</p>
 	<hr>
 	<p>
-		Keep your secrets secret. Tool to manage secrets in your public or private repositories. 
+		Keep your secrets secret. Tool to manage secrets in your public and private repositories. 
 	</p>
 </div>
 
