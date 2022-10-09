@@ -1,6 +1,6 @@
 <div align="center">
 	<p>
-	<a href="https://github.com/xpublisher/weasyprint-rest#is=awesome">
+	<a href="https://github.com/kpalatzky/microvault#is=awesome">
             <img src="src/main/resources/assets/logo.svg" alt="MicroVault Logo" width="80%"/>
         </a>
     </p>
