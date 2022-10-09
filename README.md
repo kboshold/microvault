@@ -1,8 +1,7 @@
-# MicroVault
 <div align="center">
 	<p>
-		<a href="https://github.com/xpublisher/weasyprint-rest#is=awesome">
-            <img src="src/main/resources/assets/logo.svg" width="80%"/>
+	<a href="https://github.com/xpublisher/weasyprint-rest#is=awesome">
+            <img src="src/main/resources/assets/logo.svg" alt="MicroVault Logo" width="80%"/>
         </a>
     </p>
     <p>
