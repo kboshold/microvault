@@ -22,6 +22,8 @@
 
 ## Usage
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/67dfdd9d966b40888510bcfa80eb87e9)](https://app.codacy.com/gh/kpalatzky/microvault?utm_source=github.com&utm_medium=referral&utm_content=kpalatzky/microvault&utm_campaign=Badge_Grade_Settings)
+
 ```shell
 # create a new vault with given password at the given location
 mv --password=YourPassword --file=./micro.vault create
