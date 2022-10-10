@@ -11,8 +11,7 @@ import net.palatzky.microvault.vault.serialization.data.EncryptionOptions
 import net.palatzky.microvault.vault.serialization.data.VaultData
 import java.io.OutputStream
 import java.util.*
-
-abstract class VaultSerializer (){
+ class VaultSerializer (){
 	companion object {
 		const val AUTHENTICATION_DATA = "MicroVault"
 	}

@@ -7,7 +7,9 @@ import net.palatzky.microvault.encryption.symmetric.AesGcmDecryption
 import net.palatzky.microvault.encryption.symmetric.AesGcmEncryption
 import net.palatzky.microvault.util.*
 import net.palatzky.microvault.vault.MicroVault
-import net.palatzky.microvault.vault.serialization.MicroVaultSerializer
+import net.palatzky.microvault.vault.Vault
+import net.palatzky.microvault.vault.serialization.VaultFactory
+import net.palatzky.microvault.vault.serialization.VaultSerializer
 import java.nio.file.Files
 import java.nio.file.Path
 import java.security.Key
@@ -38,8 +40,15 @@ class VaultService {
 
 	}
 
-	fun open(path: Path, password: String,) {
+	fun open(path: Path, password: String): Vault {
+		val factory = VaultFactory()
 
+		val vault = factory.fromFile(path, password)
+
+		println(vault.entries)
+		println("KEY " + vault.get("exampleKey"));
+
+		return vault;
 	}
 
 	fun close() {
@@ -62,7 +71,8 @@ class VaultService {
 
 		val salt = createRandomSalt()
 		val vault = MicroVault(mode, salt, encryption, decryption)
-		val vaultSerializer = MicroVaultSerializer()
+		vault.set("exampleKey", "exampleValue")
+		val vaultSerializer = VaultSerializer()
 
 		val stream = Files.newOutputStream(path)
 		vaultSerializer.serialize(vault, stream, password)

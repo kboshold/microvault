@@ -15,6 +15,10 @@ class OpenCommand(
 	@CommandLine.Option(names = ["-i", "--interactive"], description = ["Password to use for the micro vault"])
 	lateinit var interactive: String
 
+	@CommandLine.ParentCommand
+	lateinit var entryCommand: EntryCommand;
+
 	override fun run() {
+		vaultService.open(entryCommand.file, entryCommand.password);
 	}
 }
