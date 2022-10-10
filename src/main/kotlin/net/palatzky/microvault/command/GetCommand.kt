@@ -16,6 +16,12 @@ class GetCommand(
 	lateinit var entryCommand: EntryCommand;
 
 	override fun run() {
+		// open vault & get value of passed key
+		val vault = vaultService.open(entryCommand.file, entryCommand.password)
+		val value = vaultService.get(vault, key)
 
+		// write value
+		print(value ?: "")
+		System.out.flush()
 	}
 }

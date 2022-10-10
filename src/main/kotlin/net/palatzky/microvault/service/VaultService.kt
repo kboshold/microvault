@@ -32,8 +32,8 @@ class VaultService {
 		println("HELLO TEST")
 	}
 
-	fun get(key: String): String {
-		return "";
+	fun get(vault: Vault, key: String): String? {
+		return vault.get(key)
 	}
 
 	fun set(key: String, value: String) {
@@ -42,13 +42,7 @@ class VaultService {
 
 	fun open(path: Path, password: String): Vault {
 		val factory = VaultFactory()
-
-		val vault = factory.fromFile(path, password)
-
-		println(vault.entries)
-		println("KEY " + vault.get("exampleKey"));
-
-		return vault;
+		return factory.fromFile(path, password)
 	}
 
 	fun close() {

@@ -17,7 +17,6 @@ class PbeDecryption(
 		val pbeParamSpec = PBEParameterSpec(salt, 1012, ivSpec)
 		val cipher = Cipher.getInstance("PBEWITHHMACSHA512ANDAES_256")
 		cipher.init(Cipher.DECRYPT_MODE, key, pbeParamSpec)
-		println("GOT "+  Arrays.toString(content))
 		return cipher.doFinal(content).toString(Charsets.UTF_8)
 	}
 }
