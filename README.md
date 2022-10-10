@@ -4,7 +4,10 @@
             <img src="src/main/resources/assets/logo.svg" alt="MicroVault Logo" width="80%"/>
         </a>
     </p>
-    <p>
+    <p>    
+	    <a href="https://github.com/kpalatzky/microvault#is=awesome">
+      <img src="https://img.shields.io/badge/-in%20development-red" alt="In development">
+    </a>
     <a href="https://app.dependabot.com/">
       <img src="https://img.shields.io/badge/Dependabot-active-brightgreen.svg?logo=dependabot" alt="Dependabot active">
     </a>
