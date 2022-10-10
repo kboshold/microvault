@@ -14,7 +14,13 @@ class SetCommand(
 	@CommandLine.Parameters(index = "1", description = ["Value of the micro vault entry"])
 	lateinit var value: String;
 
-	override fun run() {
+	@CommandLine.ParentCommand
+	lateinit var entryCommand: EntryCommand;
 
+	override fun run() {
+		// open vault & get value of passed key
+		val vault = vaultService.open(entryCommand.file, entryCommand.password)
+		vaultService.set(vault, key, value)
+		vaultService.write(vault, entryCommand.file, entryCommand.password)
 	}
 }
