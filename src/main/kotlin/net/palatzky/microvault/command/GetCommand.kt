@@ -12,6 +12,10 @@ class GetCommand(
 	@CommandLine.Parameters(index = "0", description = ["Key of the micro vault entry"])
 	lateinit var key: String;
 
+	@CommandLine.ParentCommand
+	lateinit var entryCommand: EntryCommand;
+
 	override fun run() {
+
 	}
 }

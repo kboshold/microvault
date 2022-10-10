@@ -66,8 +66,8 @@ class VaultService {
 		val (readKey, writeKey) = createReadWriteKey(mode)
 
 		// create decryption/encryption depending on mode
-		val decryption = createDecryption(mode, writeKey)
-		val encryption = createEncryption(mode, readKey)
+		val decryption = createDecryption(mode, readKey)
+		val encryption = createEncryption(mode, writeKey)
 
 		val salt = createRandomSalt()
 		val vault = MicroVault(mode, salt, encryption, decryption)
@@ -142,3 +142,5 @@ class VaultService {
 }
 
 // --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault create --mode=asymmetric
+// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault open
+// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault get test

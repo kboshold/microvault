@@ -9,4 +9,6 @@ data class EncryptionOptions(
 	var readKey: String? = null,
 	var writeKey: String? = null,
 	var key: String? = null
-)
+) {
+	constructor(): this(VaultService.EncryptionMode.plain, "")
+}

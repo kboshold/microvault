@@ -22,7 +22,7 @@ import java.util.*
 
 
 		val base64 = Base64.getEncoder()
-		val salt = base64.encode(vault.salt).toString(Charsets.UTF_8)
+		val salt = base64.encodeToString(vault.salt)
 
 		val pbeKey = createPBEKey(password)
 		val pbeEncryption = PbeEncryption(pbeKey, vault.salt)
@@ -31,7 +31,7 @@ import java.util.*
 		val encodedWriteKey = encodeKey(encryption.key)
 		val encodedReadKey = encodeKey(decryption.key)
 
-		val encryptedReadKey = base64.encode(pbeEncryption.encrypt(encodedReadKey)).toString(Charsets.UTF_8)
+		val encryptedReadKey = base64.encodeToString(pbeEncryption.encrypt(encodedReadKey))
 
 		val encryptionOptions = if (encodedWriteKey === encodedReadKey) {
 			EncryptionOptions(mode=vault.mode, salt=salt, key = encryptedReadKey)
@@ -43,8 +43,8 @@ import java.util.*
 			version = "1.0.0",
 			encryption = encryptionOptions,
 			data = vault.entries.map {
-				val encryptedKey = base64.encode(encryption.encrypt(it.key, AUTHENTICATION_DATA)).toString(Charsets.UTF_8)
-				val encryptedValue = base64.encode(encryption.encrypt(it.value, AUTHENTICATION_DATA)).toString(Charsets.UTF_8)
+				val encryptedKey = base64.encodeToString(encryption.encrypt(it.key, AUTHENTICATION_DATA))
+				val encryptedValue = base64.encodeToString(encryption.encrypt(it.value, AUTHENTICATION_DATA))
 				encryptedKey to encryptedValue
 			}.toMap()
 		)

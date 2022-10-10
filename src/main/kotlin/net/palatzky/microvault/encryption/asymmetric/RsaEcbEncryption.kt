@@ -8,7 +8,8 @@ class RsaEcbEncryption (
 	override val key: Key
 ) : Encryption{
 	override fun encrypt(content: String, authenticationData: String?): ByteArray {
-		val cipher = Cipher.getInstance("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING")
+		val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
+
 		cipher.init(Cipher.ENCRYPT_MODE, key)
 		return cipher.doFinal(content.toByteArray(Charsets.UTF_8))
 	}

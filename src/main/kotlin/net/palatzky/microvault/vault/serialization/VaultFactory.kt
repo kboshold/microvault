@@ -20,6 +20,7 @@ import java.security.spec.EncodedKeySpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
 import java.util.*
+import javax.crypto.spec.SecretKeySpec
 
 class VaultFactory() {
 	fun fromFile(location: Path, password: String): Vault {
@@ -32,10 +33,10 @@ class VaultFactory() {
 
 		val vaultData = objectMapper.readValue(content, VaultData::class.java)
 
+
 		val mode = vaultData.encryption.mode;
 		val decoder = Base64.getDecoder();
 		val salt = decoder.decode(vaultData.encryption.salt)
-
 		val pbeKey = createPBEKey(password)
 		val pbeDecryption = PbeDecryption(pbeKey, salt)
 
@@ -46,18 +47,18 @@ class VaultFactory() {
 			)
 		)
 
-		val encodedWriteKey = decoder.decode(
-			pbeDecryption.decrypt(
-				decoder.decode(vaultData.encryption.key ?: vaultData.encryption.writeKey),
-				VaultSerializer.AUTHENTICATION_DATA
-			)
-		)
+		val encodedWriteKey = if (vaultData.encryption.key !== null) {
+			encodedReadKey
+		} else {
+			decoder.decode(vaultData.encryption.writeKey)
+		}
 
 		val (readKey, writeKey) = when (mode) {
 			VaultService.EncryptionMode.plain -> EmptyKey.toPair()
 			VaultService.EncryptionMode.asymmetric -> {
-				val privateKeySpec: EncodedKeySpec = PKCS8EncodedKeySpec(encodedReadKey)
 				val generator = KeyFactory.getInstance("RSA")
+
+				val privateKeySpec: EncodedKeySpec = PKCS8EncodedKeySpec(encodedReadKey)
 				val privateKey: PrivateKey = generator.generatePrivate(privateKeySpec)
 
 				val publicKeySpec: EncodedKeySpec = X509EncodedKeySpec(encodedWriteKey)
@@ -66,10 +67,7 @@ class VaultFactory() {
 			}
 
 			VaultService.EncryptionMode.symmetric -> {
-				// TODO verify
-				val privateKeySpec: EncodedKeySpec = PKCS8EncodedKeySpec(encodedReadKey)
-				val generator = KeyFactory.getInstance("RSA")
-				generator.generatePrivate(privateKeySpec).toPair()
+				SecretKeySpec(encodedReadKey, "AES").toPair()
 			}
 		}
 
