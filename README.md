@@ -92,3 +92,20 @@ $MV open --interative
   }
 }
 ```
+
+## Development
+
+### Native Build
+
+Run one of the following command to build the tool in native mode:
+
+```shell
+# The first build may take up to 5-10 minutes depending on your computer specs 
+./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
+```
+
+### UberJAR / FatJAR
+```shell
+# The first build may take up to 2-5 minutes depending on your computer specs 
+./gradlew build  -Dquarkus.package.type=uber-jar -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
+```
