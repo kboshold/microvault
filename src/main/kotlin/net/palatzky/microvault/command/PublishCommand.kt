@@ -3,11 +3,16 @@ package net.palatzky.microvault.command
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
 
+/**
+ * Publishes entries of the vault
+ *
+ * @property vaultService
+ * @constructor Create empty Publish command
+ */
 @CommandLine.Command(name = "publish", aliases = ["p", "export"],  description = ["Publishes multiple entries in the micro vault"])
 class PublishCommand(
 	private val vaultService: VaultService,
 ): Runnable {
-
 	enum class Provider {
 		kubernetes, environment, generic
 	}

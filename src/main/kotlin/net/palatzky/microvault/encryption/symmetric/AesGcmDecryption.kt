@@ -5,6 +5,12 @@ import java.security.Key
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 
+/**
+ * Aes gcm decryption
+ *
+ * @property key
+ * @constructor Create empty Aes gcm decryption
+ */
 class AesGcmDecryption(
 	override val key: Key,
 ): Decryption {

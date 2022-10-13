@@ -6,6 +6,13 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEParameterSpec
 
+/**
+ * Pbe encryption
+ *
+ * @property key
+ * @property salt
+ * @constructor Create empty Pbe encryption
+ */
 class PbeEncryption(
 	override val key: Key,
 	val salt: ByteArray

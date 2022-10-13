@@ -2,6 +2,11 @@ package net.palatzky.microvault.session
 
 import java.io.File
 
+/**
+ * Environment session
+ *
+ * @constructor Create empty Environment session
+ */
 class EnvironmentSession : Session {
 
 	override val vaultPath: File

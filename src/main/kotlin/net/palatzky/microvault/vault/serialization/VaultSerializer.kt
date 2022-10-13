@@ -11,11 +11,24 @@ import net.palatzky.microvault.vault.serialization.data.EncryptionOptions
 import net.palatzky.microvault.vault.serialization.data.VaultData
 import java.io.OutputStream
 import java.util.*
- class VaultSerializer (){
+
+/**
+ * Vault serializer to serialize a vault.
+ *
+ * @constructor Create empty Vault serializer
+ */
+class VaultSerializer (){
 	companion object {
 		const val AUTHENTICATION_DATA = "MicroVault"
 	}
 
+	/**
+	 * Serialize the given vault into the given output stream and encrypting the data with the passed password.
+	 *
+	 * @param vault
+	 * @param output
+	 * @param password
+	 */
 	fun serialize(vault: Vault, output: OutputStream, password: String) {
 		val encryption = vault.encryption;
 		var decryption = vault.decryption;

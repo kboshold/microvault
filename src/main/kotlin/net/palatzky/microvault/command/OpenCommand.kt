@@ -4,6 +4,12 @@ import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
 import java.io.File
 
+/**
+ * Opens a existing vault
+ *
+ * @property vaultService
+ * @constructor Create empty Open command
+ */
 @CommandLine.Command(name = "open", aliases = ["o"],  description = ["Opens the micro vault"])
 class OpenCommand(
 	private val vaultService: VaultService
