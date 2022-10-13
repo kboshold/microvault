@@ -73,19 +73,16 @@ $MV open --interative
 
 ```json
 {
-  "version": "1.0",
-  "checksum": "ksdjklsjadfkö",
-  "encryption": {
-    "key": "<readWriteKey>",
-    "read": "<readKey>",
-    "write": "<writeKey>",
-    "mode": ""
+  "version" : "1.0.0",
+  "encryption" : {
+    "mode" : "asymmetric",
+    "salt" : "<SALT_ENCODED>",
+    "readKey" : "<READ_KEY_ENCRYPTED>",
+    "writeKey" : "<WRITE_KEY_ENCRYPTED>",
+    "key": "<READ_WRITE_KEY_ENCRYPTED>"
   },
-  "options": {
-    
-  },
-  "data": {
-    "<key>": "<value>"
+  "data" : {
+    "<ENCRYPTED_KEY>": "<ENCRYPTED_VALUE>"
   }
 }
 ```
