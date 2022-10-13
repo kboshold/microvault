@@ -22,14 +22,34 @@ import java.security.spec.X509EncodedKeySpec
 import java.util.*
 import javax.crypto.spec.SecretKeySpec
 
+/**
+ * Create a vault from the given file of content
+ *
+ * @constructor Create empty Vault factory
+ */
 class VaultFactory() {
+
+	/**
+	 * Reads the file and parses its content to return the vault.
+	 *
+	 * @param location
+	 * @param password
+	 * @return
+	 */
 	fun fromFile(location: Path, password: String): Vault {
 		val content = Files.readString(location, Charsets.UTF_8);
 		return this.parse(content, password)
 
 	}
 
-	fun parse(content: String, password: String): Vault {
+	/**
+	 * Parses the given content by decrypting the data with the passed password and creating a vault object out of it.
+	 *
+	 * @param content
+	 * @param password
+	 * @return
+	 */
+	private fun parse(content: String, password: String): Vault {
 		val objectMapper = ObjectMapper()
 
 		val vaultData = objectMapper.readValue(content, VaultData::class.java)

@@ -5,6 +5,15 @@ import net.palatzky.microvault.encryption.Encryption
 import net.palatzky.microvault.service.VaultService
 import java.nio.file.Path
 
+/**
+ * Implementation of the vault.
+ *
+ * @property mode
+ * @property salt
+ * @property encryption
+ * @property decryption
+ * @constructor Create empty Micro vault
+ */
 class MicroVault(
 	override val mode: VaultService.EncryptionMode,
 	override val salt: ByteArray,

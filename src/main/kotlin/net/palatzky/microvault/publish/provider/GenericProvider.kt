@@ -2,6 +2,12 @@ package net.palatzky.microvault.publish.provider
 
 import net.palatzky.microvault.vault.Vault
 
+/**
+ * Generic provider
+ *
+ * @property template
+ * @constructor Create empty Generic provider
+ */
 class GenericProvider (
 	private val template: String
 	): Provider {

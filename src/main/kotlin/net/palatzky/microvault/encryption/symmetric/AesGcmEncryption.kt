@@ -8,14 +8,16 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.spec.GCMParameterSpec
 
+/**
+ * Aes gcm encryption
+ *
+ * @property key
+ * @constructor Create empty Aes gcm encryption
+ */
 class AesGcmEncryption(
 	override val key: Key,
 ) : Encryption {
 
-//	val keyGenerator = KeyGenerator.getInstance("AES")
-//	keyGenerator.init(256, SecureRandom())
-//	return keyGenerator.generateKey()
-	
 	companion object {
 		const val GCM_IV_LENGTH = 12
 	}

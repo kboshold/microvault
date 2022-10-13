@@ -3,6 +3,12 @@ package net.palatzky.microvault.command
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
 
+/**
+ * Creates a new vault
+ *
+ * @property vaultService
+ * @constructor Create empty Create command
+ */
 @CommandLine.Command(name = "create", aliases = ["c"], description = ["Creates a new micro vault"] )
 class CreateCommand(
 	private val vaultService: VaultService

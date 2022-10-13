@@ -2,6 +2,12 @@ package net.palatzky.microvault.publish.provider
 
 import net.palatzky.microvault.vault.Vault
 
+/**
+ * Kubernetes provider
+ *
+ * @property name
+ * @constructor Create empty Kubernetes provider
+ */
 class KubernetesProvider(
 	private val name: String
 ) : Provider {

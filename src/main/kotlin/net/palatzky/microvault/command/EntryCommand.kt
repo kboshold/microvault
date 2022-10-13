@@ -4,6 +4,11 @@ import io.quarkus.picocli.runtime.annotations.TopCommand
 import picocli.CommandLine
 import java.nio.file.Path
 
+/**
+ * Entry command
+ *
+ * @constructor Create empty Entry command
+ */
 @TopCommand
 @CommandLine.Command(mixinStandardHelpOptions = true, subcommands = [
 	CreateCommand::class,

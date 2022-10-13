@@ -4,6 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import io.quarkus.runtime.annotations.RegisterForReflection
 import net.palatzky.microvault.service.VaultService
 
+/**
+ * Encryption options
+ *
+ * @property mode
+ * @property salt
+ * @property readKey
+ * @property writeKey
+ * @property key
+ * @constructor Create empty Encryption options
+ */
 @RegisterForReflection
 data class EncryptionOptions(
 	var mode: VaultService.EncryptionMode,

@@ -4,6 +4,12 @@ import net.palatzky.microvault.encryption.Encryption
 import java.security.Key
 import javax.crypto.Cipher
 
+/**
+ * Rsa ecb encryption
+ *
+ * @property key
+ * @constructor Create empty Rsa ecb encryption
+ */
 class RsaEcbEncryption (
 	override val key: Key
 ) : Encryption{
