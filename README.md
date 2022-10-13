@@ -23,42 +23,50 @@
 	</p>
 </div>
 
+### Get started
+
+## Installation
+
+```shell
+wget https://github.com/kpalatzky/microvault/releases/latest/download/microvault
+chmod +x microvault
+```
 ## Usage
 
 ```shell
 # create a new vault with given password at the given location
-mv --password=YourPassword --file=./micro.vault create
+miva --password=YourPassword --file=./micro.vault create
 
 # open a session to continues edit the vault. The command substitution is required to set a environment variable
-$(mv --password=YourPassword --file=./micro.vault open -e) # MICRO_VAULT_SESSION=<SESSION_DATA>
+$(miva --password=YourPassword --file=./micro.vault open -e) # MICRO_VAULT_SESSION=<SESSION_DATA>
 
 # add data to the vault
-mv set db.user Admin
-mv set db.password Admin123
+miva set db.user Admin
+miva set db.password Admin123
 
-mv set docker.user MicroVault
-mv set docker.email microvault@example.com
-mv set docker.password MicroVault123
+miva set docker.user MicroVault
+miva set docker.email microvault@example.com
+miva set docker.password MicroVault123
 
 # get data from the vault
-mv get docker.password
+miva get docker.password
 
 # list content of the vault
-mv list
+miva list
 
 # publish all data as environment variables
-$(mv publish environment) # export DOCKER_PASSWORD=<docker.password>
+$(miva publish environment) # export DOCKER_PASSWORD=<docker.password>
 
 # close the vault again
-$(mv close) # MICRO_VAULT_SESSION=
+$(miva close) # MICRO_VAULT_SESSION=
 
 # Use variable as command
-MV="mv --password=YourPassword --file=./micro.vault"
-$MV get docker.password
-$MV publish kubernetes --parameter name=my-secrets
+MIVA="miva --password=YourPassword --file=./micro.vault"
+$MIVA get docker.password
+$MIVA publish kubernetes --parameter name=my-secrets
 
 # open vault in interative mode
-$MV open --interative
+$MIVA open --interative
 > get docker.password
 > set docker.password Docker123
 > exit
