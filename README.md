@@ -76,19 +76,28 @@ $MV open --interative
 
 ```json
 {
-  "version": "1.0",
-  "checksum": "ksdjklsjadfkö",
-  "encryption": {
-    "key": "<readWriteKey>",
-    "read": "<readKey>",
-    "write": "<writeKey>",
-    "mode": ""
+  "version" : "1.0.0",
+  "encryption" : {
+    "mode" : "asymmetric",
+    "salt" : "<SALT_ENCODED>",
+    "readKey" : "<READ_KEY_ENCRYPTED>",
+    "writeKey" : "<WRITE_KEY_ENCRYPTED>",
+    "key": "<READ_WRITE_KEY_ENCRYPTED>"
   },
-  "options": {
-    
-  },
-  "data": {
-    "<key>": "<value>"
+  "data" : {
+    "<ENCRYPTED_KEY>": "<ENCRYPTED_VALUE>"
   }
 }
+```
+
+## Development
+### Native Build
+```shell
+./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
+```
+
+### UberJar / FatJar
+
+```shell
+ ./gradlew build  -Dquarkus.package.type=uber-jar -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
 ```
