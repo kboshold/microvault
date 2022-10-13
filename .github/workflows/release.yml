@@ -21,7 +21,7 @@ jobs:
       - name: Build Native
         run: |
           ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
-          mv build/microvault-1.0-SNAPSHOT-runner.jar artifacts/microvault artifacts/microvault
+          mv build/microvault-1.0-SNAPSHOT-runner.jar artifacts/microvault
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
