@@ -1,0 +1,35 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - "v*.*.*" # Push events to matching i.e. v1.0.0, v20.15.10
+
+name: Release
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build UberJar/FatJar
+        run: |
+        ./gradlew build  -Dquarkus.package.type=uber-jar -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
+        mkdir artifacts
+        mv build/microvault-1.0-SNAPSHOT-runner.jar artifacts/microvault.jar
+      - name: Build Native
+        run: |
+        ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
+        mv build/microvault-1.0-SNAPSHOT-runner.jar artifacts/microvault artifacts/microvault
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          files: |
+            artifacts/microvault
+            artifacts/microvault.jar
+            LICENSE
