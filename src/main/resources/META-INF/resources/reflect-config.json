@@ -5,5 +5,12 @@
     "methods" : [
       { "name" : "<init>", "parameterTypes" : [] }
     ]
+  },
+  {
+    "name" : "net.palatzky.microvault.vault.serialization.data.EncryptionOptions",
+    "fields" : [],
+    "methods" : [
+      { "name" : "<init>", "parameterTypes" : [] }
+    ]
   }
 ]

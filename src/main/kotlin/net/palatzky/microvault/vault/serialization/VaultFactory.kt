@@ -26,6 +26,7 @@ class VaultFactory() {
 	fun fromFile(location: Path, password: String): Vault {
 		val content = Files.readString(location, Charsets.UTF_8);
 		return this.parse(content, password)
+
 	}
 
 	fun parse(content: String, password: String): Vault {

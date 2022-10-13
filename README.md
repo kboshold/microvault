@@ -89,3 +89,15 @@ $MV open --interative
   }
 }
 ```
+
+## Development
+### Native Build
+```shell
+./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
+```
+
+### UberJar / FatJar
+
+```shell
+ ./gradlew build  -Dquarkus.package.type=uber-jar -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
+```
