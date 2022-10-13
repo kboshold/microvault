@@ -36,8 +36,8 @@ class VaultService {
 		return vault.get(key)
 	}
 
-	fun set(key: String, value: String) {
-
+	fun set(vault: Vault, key: String, value: String) {
+		vault.set(key, value)
 	}
 
 	fun open(path: Path, password: String): Vault {
@@ -53,7 +53,11 @@ class VaultService {
 
 	}
 
-
+	fun write(vault: Vault, path: Path, password: String) {
+		val vaultSerializer = VaultSerializer()
+		val stream = Files.newOutputStream(path)
+		vaultSerializer.serialize(vault, stream, password)
+	}
 
 	fun create(path: Path, password: String, mode: EncryptionMode) {
 		// create write/read key depending on encryption mode.
@@ -66,75 +70,13 @@ class VaultService {
 		val salt = createRandomSalt()
 		val vault = MicroVault(mode, salt, encryption, decryption)
 		vault.set("exampleKey", "exampleValue")
-		val vaultSerializer = VaultSerializer()
 
-		val stream = Files.newOutputStream(path)
-		vaultSerializer.serialize(vault, stream, password)
-//		var keyPair = AsymmetricCryptor.createKeyPair();
-//
-//////
-////		var outStream = ByteArrayOutputStream()
-////		val out = ObjectOutputStream(outStream)
-////		out.writeObject(keyPair)
-////		out.flush();
-////		out.close()
-//////
-//		var encoder =  Base64.getEncoder();
-//		println("PRIVATE1 " + keyPair.private);
-//		println("PUBLIC1 " +  keyPair.public);
-////
-//		var encodedPrivateKey =  encoder.encode(keyPair.private.encoded).toString(Charsets.UTF_8);
-//		var encodedPublicKey =   encoder.encode(keyPair.public.encoded).toString(Charsets.UTF_8);
-//		println("PRIVATE1 " + encodedPrivateKey);
-//		println("PUBLIC1 " + encodedPublicKey);
-//
-//		var encryptor = AsymmetricCryptor(keyPair);
-////
-//		var data = encryptor.encrypt("Hallo Welt");
-//		println("ENCRYPTED " + data);
-//		println("DECRYPTED " + encryptor.decrypt(data));
-//		println("===========================");
-//
-//		var x = KeyPairGenerator.getInstance("RSA")
-//
-//		var decoder =  Base64.getDecoder();
-//		val privateKeySpec = PKCS8EncodedKeySpec(decoder.decode(encodedPrivateKey))
-//		val publicKeySpec = X509EncodedKeySpec(decoder.decode(encodedPublicKey))
-//		val kf = KeyFactory.getInstance("RSA")
-//		var privateKey = kf.generatePrivate(privateKeySpec)
-//		var publicKey = kf.generatePublic(publicKeySpec);
-//		var encryptor2 = AsymmetricCryptor(KeyPair(publicKey, privateKey))
-//		println("ENCRYPTED2 " + data);
-//		println("DECRYPTED2 " + encryptor2.decrypt(data));
-//		var encryptor = A();
-//
-//		var value = encryptor.encrypt("Hallo das ist ein Test");
-//		println("ENCRYPTED1 " + value);
-//		println("DECRYPTED1 " + encryptor.decrypt(value));
-//		var data = outStream.toByteArray().toString(Charsets.UTF_8);
-//
-//		var inStream = ByteArrayInputStream(data.toByteArray(Charsets.UTF_8));
-//		val inObjectStream = ObjectInputStream(inStream)
-//
-//		val keyPair2 = inObjectStream.readObject() as KeyPair
-//
-//		println("PRIVATE2 " + keyPair2.private);
-//		println("PUBLIC2 " + keyPair2.public);
-
-//		println("CREATE KEYS " + );
-//
-//		var data = this.serializeKeyPair(keyPair, password);
-//
-//		println("DATA" + data);
-//
-//		var keyPair2 = this.loadKeyPair(data, password);
-//
-//		println("CREATE KEYS2 " + keyPair2.private.toString() + " - " + keyPair2.public.toString());
-
+		this.write(vault, path, password)
 	}
 
 }
 
 // --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault create --mode=asymmetric
 // --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault open
-// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault get test
+// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault get exampleKey
+// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault set exampleKey2 exampleValue2

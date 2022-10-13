@@ -5,6 +5,9 @@
         </a>
     </p>
     <p>    
+	<a href="https://www.codacy.com/gh/kpalatzky/microvault/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kpalatzky/microvault&amp;utm_campaign=Badge_Grade">
+		<img src="https://app.codacy.com/project/badge/Grade/4f7a56fe9664480db770eb9895d6fcf6"/>
+	    </a>
 	    <a href="https://github.com/kpalatzky/microvault#is=awesome">
       <img src="https://img.shields.io/badge/-in%20development-red" alt="In development">
     </a>
