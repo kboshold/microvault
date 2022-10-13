@@ -28,9 +28,9 @@
 ## Installation
 
 ```shell
-wget https://github.com/kpalatzky/microvault/releases/latest/download/microvault
-chmod +x microvault
+curl https://raw.githubusercontent.com/kpalatzky/microvault/master/src/main/resources/scripts/install.sh | sh
 ```
+
 ## Usage
 
 ```shell
