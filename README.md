@@ -23,15 +23,28 @@
 	</p>
 </div>
 
-### Get started
+## State of development
 
-## Installation
+| Feature            | Done                  |
+|--------------------|-----------------------|
+| microvault create  | :heavy_check_mark:    |
+| microvault get     | :heavy_check_mark:    |
+| microvault set     | :heavy_check_mark:    |
+| microvault list    | :x:                   |
+| microvault open    | :x:                   |
+| microvault close   | :x:                   |
+| microvault publish | :x:                   |
+
+
+## Get started
+
+### Installation
 
 ```shell
 curl https://raw.githubusercontent.com/kpalatzky/microvault/master/src/main/resources/scripts/install.sh | sh
 ```
 
-## Usage
+### Usage
 
 ```shell
 # create a new vault with given password at the given location
