@@ -2,17 +2,23 @@ package net.palatzky.microvault.vault.serialization
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import net.palatzky.microvault.encryption.EmptyKey
+import net.palatzky.microvault.encryption.PassThroughKey
 import net.palatzky.microvault.encryption.pbe.PbeDecryption
 import net.palatzky.microvault.service.VaultService
 import net.palatzky.microvault.util.createDecryption
 import net.palatzky.microvault.util.createEncryption
 import net.palatzky.microvault.util.createPBEKey
 import net.palatzky.microvault.util.toPair
+import net.palatzky.microvault.vault.DecryptionDecorator
+import net.palatzky.microvault.vault.EncryptionDecorator
 import net.palatzky.microvault.vault.MicroVault
 import net.palatzky.microvault.vault.Vault
+import net.palatzky.microvault.vault.option.MicroOptions
+import net.palatzky.microvault.vault.option.Options
 import net.palatzky.microvault.vault.serialization.data.VaultData
 import java.nio.file.Files
 import java.nio.file.Path
+import java.security.Key
 import java.security.KeyFactory
 import java.security.PrivateKey
 import java.security.PublicKey
@@ -29,17 +35,32 @@ import javax.crypto.spec.SecretKeySpec
  */
 class VaultFactory() {
 
-	/**
-	 * Reads the file and parses its content to return the vault.
-	 *
-	 * @param location
-	 * @param password
-	 * @return
-	 */
-	fun fromFile(location: Path, password: String): Vault {
-		val content = Files.readString(location, Charsets.UTF_8);
-		return this.parse(content, password)
+	companion object {
+		/**
+		 * Reads the file and parses its content to return the vault.
+		 *
+		 * @param location
+		 * @param password
+		 * @return
+		 */
+		fun fromFile(location: Path, password: String?): VaultFactory {
+			val content = Files.readString(location, Charsets.UTF_8)
+			val vaultFactory = VaultFactory();
+			vaultFactory.parse(content, password)
+			return vaultFactory
+		}
+	}
 
+	lateinit var options: Options
+		private set
+
+	lateinit var vault: Vault
+		private set
+
+
+	private fun parseVaultData(content: String): VaultData {
+		val objectMapper = ObjectMapper()
+		return objectMapper.readValue(content, VaultData::class.java)
 	}
 
 	/**
@@ -49,60 +70,73 @@ class VaultFactory() {
 	 * @param password
 	 * @return
 	 */
-	private fun parse(content: String, password: String): Vault {
-		val objectMapper = ObjectMapper()
-
-		val vaultData = objectMapper.readValue(content, VaultData::class.java)
-
+	fun parse(content: String, password: String?) {
+		val vaultData = parseVaultData(content);
 
 		val mode = vaultData.encryption.mode;
 		val decoder = Base64.getDecoder();
+
 		val salt = decoder.decode(vaultData.encryption.salt)
-		val pbeKey = createPBEKey(password)
-		val pbeDecryption = PbeDecryption(pbeKey, salt)
 
-		val encodedReadKey = decoder.decode(
-			pbeDecryption.decrypt(
-				decoder.decode(vaultData.encryption.key ?: vaultData.encryption.readKey),
-				VaultSerializer.AUTHENTICATION_DATA
+		val decodedDecryptionKey = decoder.decode(vaultData.encryption.key ?: vaultData.encryption.decryptionKey)
+		val decodedEncryptionKey = decoder.decode(vaultData.encryption.key ?: vaultData.encryption.encryptionKey)
+
+		var decryptionKey: Key? = null;
+		if (password != null) {
+			val pbeKey = createPBEKey(password)
+			val pbeDecryption = PbeDecryption(pbeKey, salt)
+
+			val encodedDecryptionKey = decoder.decode(
+				pbeDecryption.decrypt(
+					decodedDecryptionKey,
+					VaultSerializer.AUTHENTICATION_DATA
+				)
 			)
-		)
 
-		val encodedWriteKey = if (vaultData.encryption.key !== null) {
-			encodedReadKey
-		} else {
-			decoder.decode(vaultData.encryption.writeKey)
+			decryptionKey = when (mode) {
+				Options.EncryptionMode.plain -> EmptyKey
+				Options.EncryptionMode.symmetric -> SecretKeySpec(encodedDecryptionKey, "AES")
+				Options.EncryptionMode.asymmetric -> {
+					val generator = KeyFactory.getInstance("RSA")
+					val privateKeySpec: EncodedKeySpec = PKCS8EncodedKeySpec(encodedDecryptionKey)
+					generator.generatePrivate(privateKeySpec)
+				}
+			}
 		}
 
-		val (readKey, writeKey) = when (mode) {
-			VaultService.EncryptionMode.plain -> EmptyKey.toPair()
-			VaultService.EncryptionMode.asymmetric -> {
+		val encryptionKey = when (mode) {
+			Options.EncryptionMode.plain -> EmptyKey
+			Options.EncryptionMode.symmetric -> decryptionKey
+			Options.EncryptionMode.asymmetric -> {
 				val generator = KeyFactory.getInstance("RSA")
-
-				val privateKeySpec: EncodedKeySpec = PKCS8EncodedKeySpec(encodedReadKey)
-				val privateKey: PrivateKey = generator.generatePrivate(privateKeySpec)
-
-				val publicKeySpec: EncodedKeySpec = X509EncodedKeySpec(encodedWriteKey)
-				val publicKey: PublicKey = generator.generatePublic(publicKeySpec)
-				privateKey to publicKey
-			}
-
-			VaultService.EncryptionMode.symmetric -> {
-				SecretKeySpec(encodedReadKey, "AES").toPair()
+				val publicKeySpec: EncodedKeySpec = X509EncodedKeySpec(decodedEncryptionKey)
+				generator.generatePublic(publicKeySpec)
 			}
 		}
 
-		val decryption = createDecryption(mode, readKey)
-		val encryption = createEncryption(mode, writeKey)
-		val vault = MicroVault(mode, salt, encryption, decryption);
+		var vault: Vault = MicroVault();
+
+		if (encryptionKey != null) {
+			val encryption = createEncryption(mode, encryptionKey)
+			vault = EncryptionDecorator(encryption, vault);
+		}
+
+		if (decryptionKey != null) {
+			val decryption = createDecryption(mode, decryptionKey)
+			vault = DecryptionDecorator(decryption, vault);
+		}
 
 		vaultData.data.forEach {
-			val key = decryption.decrypt(decoder.decode(it.key), VaultSerializer.AUTHENTICATION_DATA);
-			val value = decryption.decrypt(decoder.decode(it.value), VaultSerializer.AUTHENTICATION_DATA);
-			vault.set(key, value)
+			vault.set(it.key, it.value)
 		}
 
-		return vault
+		this.vault = vault;
+		this.options = MicroOptions(
+			salt = salt,
+			mode = mode,
+			encryptionKey = encryptionKey ?: PassThroughKey(decoder.decode(decodedEncryptionKey)),
+			decryptionKey = decryptionKey ?: PassThroughKey(decoder.decode(decodedDecryptionKey))
+		)
 	}
 
 }

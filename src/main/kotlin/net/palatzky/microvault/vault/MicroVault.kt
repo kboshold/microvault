@@ -14,12 +14,7 @@ import java.nio.file.Path
  * @property decryption
  * @constructor Create empty Micro vault
  */
-class MicroVault(
-	override val mode: VaultService.EncryptionMode,
-	override val salt: ByteArray,
-	override val encryption: Encryption,
-	override val decryption: Decryption,
-) : Vault {
+class MicroVault() : Vault {
 
 	private val data: MutableMap<String, String> = mutableMapOf()
 

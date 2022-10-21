@@ -7,7 +7,8 @@ import net.palatzky.microvault.encryption.pbe.PbeEncryption
 import net.palatzky.microvault.util.createPBEKey
 import net.palatzky.microvault.util.encodeKey
 import net.palatzky.microvault.vault.Vault
-import net.palatzky.microvault.vault.serialization.data.EncryptionOptions
+import net.palatzky.microvault.vault.option.Options
+import net.palatzky.microvault.vault.serialization.data.OptionsData
 import net.palatzky.microvault.vault.serialization.data.VaultData
 import java.io.OutputStream
 import java.util.*
@@ -17,7 +18,7 @@ import java.util.*
  *
  * @constructor Create empty Vault serializer
  */
-class VaultSerializer (){
+class VaultSerializer() {
 	companion object {
 		const val AUTHENTICATION_DATA = "MicroVault"
 	}
@@ -29,36 +30,40 @@ class VaultSerializer (){
 	 * @param output
 	 * @param password
 	 */
-	fun serialize(vault: Vault, output: OutputStream, password: String) {
-		val encryption = vault.encryption;
-		var decryption = vault.decryption;
-
+	fun serialize(vault: Vault, options: Options, output: OutputStream, password: String) {
+//		val encryption = vault.encryption;
+//		var decryption = vault.decryption;
 
 		val base64 = Base64.getEncoder()
-		val salt = base64.encodeToString(vault.salt)
+		val salt = base64.encodeToString(options.salt)
 
 		val pbeKey = createPBEKey(password)
-		val pbeEncryption = PbeEncryption(pbeKey, vault.salt)
+		val pbeEncryption = PbeEncryption(pbeKey, options.salt)
 
 		// encode write/read key using base64
-		val encodedWriteKey = encodeKey(encryption.key)
-		val encodedReadKey = encodeKey(decryption.key)
+		val encodedEncryptionKey = encodeKey(options.encryptionKey)
+		val encodedDecryptionKey = encodeKey(options.decryptionKey)
 
-		val encryptedReadKey = base64.encodeToString(pbeEncryption.encrypt(encodedReadKey))
+		// only encrypt read key since the public key should be readable
+		val encryptedDecryptionKey = base64.encodeToString(pbeEncryption.encrypt(encodedDecryptionKey))
 
-		val encryptionOptions = if (encodedWriteKey === encodedReadKey) {
-			EncryptionOptions(mode=vault.mode, salt=salt, key = encryptedReadKey)
+		//
+		val encryptionOptions = if (encodedEncryptionKey === encodedDecryptionKey) {
+			OptionsData(mode = options.mode, salt = salt, key = encryptedDecryptionKey)
 		} else {
-			EncryptionOptions(mode=vault.mode, salt=salt, writeKey = encodedWriteKey, readKey = encryptedReadKey)
+			OptionsData(
+				mode = options.mode,
+				salt = salt,
+				encryptionKey = encodedEncryptionKey,
+				decryptionKey = encryptedDecryptionKey
+			)
 		}
 
 		val vaultData = VaultData(
 			version = "1.0.0",
 			encryption = encryptionOptions,
 			data = vault.entries.map {
-				val encryptedKey = base64.encodeToString(encryption.encrypt(it.key, AUTHENTICATION_DATA))
-				val encryptedValue = base64.encodeToString(encryption.encrypt(it.value, AUTHENTICATION_DATA))
-				encryptedKey to encryptedValue
+				it.key to it.value
 			}.toMap()
 		)
 

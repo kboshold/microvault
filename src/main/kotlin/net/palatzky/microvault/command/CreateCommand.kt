@@ -1,6 +1,7 @@
 package net.palatzky.microvault.command
 
 import net.palatzky.microvault.service.VaultService
+import net.palatzky.microvault.vault.option.Options
 import picocli.CommandLine
 
 /**
@@ -15,7 +16,7 @@ class CreateCommand(
 ) : Runnable {
 
 	@CommandLine.Option(names = ["-m", "--mode"], description = ["Encryption mode"], defaultValue = false.toString())
-	var mode: VaultService.EncryptionMode = VaultService.EncryptionMode.asymmetric
+	var mode: Options.EncryptionMode = Options.EncryptionMode.asymmetric
 
 	@CommandLine.ParentCommand
 	lateinit var entryCommand: EntryCommand;
