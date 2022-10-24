@@ -26,7 +26,12 @@ class PublishCommand(
 	@CommandLine.Option(names = ["-D", "--parameter"], description = ["Parameter for the given provider"])
 	var parameter: Map<String, String> = mapOf()
 
+	@CommandLine.ParentCommand
+	lateinit var entryCommand: EntryCommand;
+
 	override fun run() {
+		// open vault & get value of passed key
+		vaultService.open(entryCommand.file, entryCommand.key)
 		vaultService.publish()
 	}
 }

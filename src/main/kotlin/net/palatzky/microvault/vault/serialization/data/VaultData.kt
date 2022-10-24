@@ -13,8 +13,8 @@ import io.quarkus.runtime.annotations.RegisterForReflection
 @RegisterForReflection
 data class VaultData(
 	val version: String,
-	val encryption: EncryptionOptions,
+	val encryption: OptionsData,
 	val data: Map<String, String>
 ) {
-	constructor() : this("0.0.0", EncryptionOptions(), mapOf())
+	constructor() : this("0.0.0", OptionsData(), mapOf())
 }

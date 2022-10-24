@@ -8,20 +8,16 @@ import java.nio.file.Path
 /**
  * Implementation of the vault.
  *
- * @property mode
- * @property salt
- * @property encryption
- * @property decryption
  * @constructor Create empty Micro vault
  */
-class MicroVault(
-	override val mode: VaultService.EncryptionMode,
-	override val salt: ByteArray,
-	override val encryption: Encryption,
-	override val decryption: Decryption,
-) : Vault {
+class MicroVault(entries: Map<String, String> = mapOf()) : Vault {
 
-	private val data: MutableMap<String, String> = mutableMapOf()
+	private val data: MutableMap<String, String>;
+
+	init {
+		this.data = entries.toMutableMap()
+	}
+
 
 	override val entries: Set<VaultEntry>
 		get() = data.entries.map {

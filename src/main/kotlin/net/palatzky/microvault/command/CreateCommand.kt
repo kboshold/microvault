@@ -1,7 +1,9 @@
 package net.palatzky.microvault.command
 
 import net.palatzky.microvault.service.VaultService
+import net.palatzky.microvault.vault.option.Options
 import picocli.CommandLine
+import java.lang.Exception
 
 /**
  * Creates a new vault
@@ -14,13 +16,14 @@ class CreateCommand(
 	private val vaultService: VaultService
 ) : Runnable {
 
-	@CommandLine.Option(names = ["-m", "--mode"], description = ["Encryption mode"], defaultValue = false.toString())
-	var mode: VaultService.EncryptionMode = VaultService.EncryptionMode.asymmetric
+	@CommandLine.Option(names = ["-m", "--mode"], description = ["Encryption mode"], defaultValue = "asymmetric")
+	var mode: Options.EncryptionMode = Options.EncryptionMode.asymmetric
 
 	@CommandLine.ParentCommand
 	lateinit var entryCommand: EntryCommand;
 
 	override fun run() {
-		vaultService.create(entryCommand.file, entryCommand.password, this.mode)
+		val password = entryCommand.key ?: throw Exception("Password is required for create");
+		vaultService.create(entryCommand.file, password, this.mode)
 	}
 }

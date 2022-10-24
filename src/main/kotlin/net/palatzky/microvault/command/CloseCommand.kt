@@ -15,7 +15,6 @@ class CloseCommand(
 	private val vaultService: VaultService
 ) : Runnable {
 
-
 	override fun run() {
 		vaultService.close()
 	}

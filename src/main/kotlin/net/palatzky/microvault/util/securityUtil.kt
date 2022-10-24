@@ -7,7 +7,7 @@ import net.palatzky.microvault.encryption.plain.PlainDecryption
 import net.palatzky.microvault.encryption.plain.PlainEncryption
 import net.palatzky.microvault.encryption.symmetric.AesGcmDecryption
 import net.palatzky.microvault.encryption.symmetric.AesGcmEncryption
-import net.palatzky.microvault.service.VaultService
+import net.palatzky.microvault.vault.option.Options
 import java.security.Key
 import java.security.KeyPair
 import java.security.KeyPairGenerator
@@ -47,11 +47,11 @@ fun createKeyPair(): KeyPair {
  * @param key
  * @return
  */
-fun createDecryption(mode: VaultService.EncryptionMode, key: Key): Decryption {
+fun createDecryption(mode: Options.EncryptionMode, key: Key): Decryption {
 	return when (mode) {
-		VaultService.EncryptionMode.asymmetric -> RsaEcbDecryption(key)
-		VaultService.EncryptionMode.symmetric -> AesGcmDecryption(key)
-		VaultService.EncryptionMode.plain -> PlainDecryption()
+		Options.EncryptionMode.asymmetric -> RsaEcbDecryption(key)
+		Options.EncryptionMode.symmetric -> AesGcmDecryption(key)
+		Options.EncryptionMode.plain -> PlainDecryption()
 	}
 }
 
@@ -62,11 +62,11 @@ fun createDecryption(mode: VaultService.EncryptionMode, key: Key): Decryption {
  * @param key
  * @return
  */
-fun createEncryption(mode: VaultService.EncryptionMode, key: Key): Encryption {
+fun createEncryption(mode: Options.EncryptionMode, key: Key): Encryption {
 	return when (mode) {
-		VaultService.EncryptionMode.asymmetric -> RsaEcbEncryption(key)
-		VaultService.EncryptionMode.symmetric -> AesGcmEncryption(key)
-		VaultService.EncryptionMode.plain -> PlainEncryption()
+		Options.EncryptionMode.asymmetric -> RsaEcbEncryption(key)
+		Options.EncryptionMode.symmetric -> AesGcmEncryption(key)
+		Options.EncryptionMode.plain -> PlainEncryption()
 	}
 }
 
@@ -76,11 +76,11 @@ fun createEncryption(mode: VaultService.EncryptionMode, key: Key): Encryption {
  * @param mode
  * @return
  */
-fun createReadWriteKey(mode: VaultService.EncryptionMode): Pair<Key, Key> {
+fun createReadWriteKey(mode: Options.EncryptionMode): Pair<Key, Key> {
 	return when (mode) {
-		VaultService.EncryptionMode.asymmetric -> createKeyPair().let { it.private to it.public }
-		VaultService.EncryptionMode.symmetric -> createSecretKey().toPair()
-		VaultService.EncryptionMode.plain -> EmptyKey.toPair()
+		Options.EncryptionMode.asymmetric -> createKeyPair().let { it.private to it.public }
+		Options.EncryptionMode.symmetric -> createSecretKey().toPair()
+		Options.EncryptionMode.plain -> EmptyKey.toPair()
 	}
 }
 

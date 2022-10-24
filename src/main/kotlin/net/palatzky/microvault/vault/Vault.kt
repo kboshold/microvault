@@ -10,10 +10,6 @@ import net.palatzky.microvault.service.VaultService
  * @constructor Create empty Vault
  */
 interface Vault {
-	val mode: VaultService.EncryptionMode
-	val salt: ByteArray
-	val encryption: Encryption
-	val decryption: Decryption
 
 	val entries: Set<VaultEntry>;
 
