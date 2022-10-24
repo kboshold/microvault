@@ -29,6 +29,12 @@ import javax.enterprise.context.Dependent
 @Dependent
 class VaultService {
 
+	companion object {
+		enum class ListFormat {
+			TABLE, PLAIN
+		}
+	}
+
 	private var vault: Vault? = null
 	private var options: Options? = null
 
@@ -56,8 +62,55 @@ class VaultService {
 
 	}
 
-	fun list() {
+	fun list(format: ListFormat): String {
 		val vault = this.vault ?: throw Exception("Vault is not open yet.")
+
+		if (format == ListFormat.PLAIN) {
+			return vault.entries.map {
+				it.key + "    " + it.value
+			}.joinToString("\n")
+		}
+		var keyLength = 0
+		var valueLength = 0
+		vault.entries.forEach {
+			keyLength = keyLength.coerceAtLeast(it.key.length)
+			valueLength = valueLength.coerceAtLeast(it.value.length)
+		}
+
+		val rows = vault.entries.flatMap {
+
+			if (it.key.length <= 40 && it.value.length <= 60) {
+				return@flatMap listOf(it.key to it.value)
+			}
+			var key = it.key
+			var value = it.value
+
+			val rows = mutableListOf<Pair<String, String>>()
+			while (key.isNotEmpty() || value.isNotEmpty()) {
+				val pairKey = if (key.isNotEmpty()) {
+					val keyPart = key.substring(0, 40.coerceAtMost(key.length))
+					key = key.substring(40.coerceAtMost(key.length))
+					keyPart
+				} else ""
+
+
+				val pairValue = if (value.isNotEmpty()) {
+					val valuePart = value.substring(0, 60.coerceAtMost(value.length))
+					value = value.substring(60.coerceAtMost(value.length))
+					valuePart
+				} else ""
+
+				rows.add(pairKey to pairValue)
+			}
+
+			return@flatMap rows
+		}
+
+		return ("Key".padEnd(40, ' ') + "    " + "Value".padEnd(60, ' ') + '\n')+
+				"=".padEnd(104, '=') + "\n" +
+				rows.joinToString("\n") {
+					it.first.padEnd(40, ' ') + "    " + it.second.padEnd(60, ' ')
+				}
 	}
 
 	fun write(path: Path) {
@@ -104,3 +157,6 @@ class VaultService {
 
 // --file=C:\Users\kevin\workspace\microsecrets\micro.vault set exampleKey3 exampleValue3
 // --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault get exampleKey3
+
+//--password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault list --format=TABLE
+//--file=C:\Users\kevin\workspace\microsecrets\micro.vault list --format=TABLE

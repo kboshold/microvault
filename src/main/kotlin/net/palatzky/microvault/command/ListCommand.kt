@@ -2,6 +2,7 @@ package net.palatzky.microvault.command
 
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
+import java.nio.file.Path
 
 /**
  * List all entries of this vault
@@ -14,16 +15,20 @@ class ListCommand(
 	private val vaultService: VaultService
 ): Runnable {
 
+	@CommandLine.Option(names = ["-f", "--format"], description = ["Format of the list output"], defaultValue = "table")
+	lateinit var format: VaultService.Companion.ListFormat
+
+
 	@CommandLine.ParentCommand
 	lateinit var entryCommand: EntryCommand;
 
 	override fun run() {
 		// open vault & get value of passed key
 		vaultService.open(entryCommand.file, entryCommand.key)
-		val value = vaultService.list()
+		val value = vaultService.list(this.format)
 
 		// write value
-		print(value ?: "")
+		println(value)
 		System.out.flush()
 	}
 }

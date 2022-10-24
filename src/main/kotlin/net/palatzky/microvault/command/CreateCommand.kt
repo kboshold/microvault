@@ -17,7 +17,7 @@ class CreateCommand(
 ) : Runnable {
 
 	@CommandLine.Option(names = ["-m", "--mode"], description = ["Encryption mode"], defaultValue = "asymmetric")
-	var mode: Options.EncryptionMode = Options.EncryptionMode.asymmetric
+	var mode: Options.EncryptionMode = Options.EncryptionMode.ASYMMETRIC
 
 	@CommandLine.ParentCommand
 	lateinit var entryCommand: EntryCommand;

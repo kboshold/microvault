@@ -7,6 +7,8 @@ import net.palatzky.microvault.encryption.PassThroughKey
 import net.palatzky.microvault.encryption.pbe.PbeEncryption
 import net.palatzky.microvault.util.createPBEKey
 import net.palatzky.microvault.util.encodeKey
+import net.palatzky.microvault.vault.DecryptionDecorator
+import net.palatzky.microvault.vault.EncryptionDecorator
 import net.palatzky.microvault.vault.Vault
 import net.palatzky.microvault.vault.option.Options
 import net.palatzky.microvault.vault.serialization.data.OptionsData
@@ -62,12 +64,21 @@ class VaultSerializer() {
 			)
 		}
 
+		var rawVault = vault;
+		while (vault is DecryptionDecorator || vault is EncryptionDecorator) {
+			rawVault = if (vault is DecryptionDecorator) {
+				(rawVault as DecryptionDecorator).vault;
+			} else {
+				(rawVault as EncryptionDecorator).vault;
+			}
+		}
+
 		val vaultData = VaultData(
 			version = "1.0.0",
 			encryption = encryptionOptions,
-			data = vault.entries.map {
+			data = vault.entries.associate {
 				it.key to it.value
-			}.toMap()
+			}
 		)
 
 		val objectMapper = ObjectMapper()

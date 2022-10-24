@@ -21,5 +21,5 @@ data class OptionsData(
 	var encryptionKey: String? = null,
 	var key: String? = null
 ) {
-	constructor(): this(Options.EncryptionMode.plain, "")
+	constructor(): this(Options.EncryptionMode.PLAIN, "")
 }
