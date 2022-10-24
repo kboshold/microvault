@@ -5,6 +5,7 @@ import net.palatzky.microvault.encryption.asymmetric.RsaEcbDecryption
 import net.palatzky.microvault.encryption.asymmetric.RsaEcbEncryption
 import net.palatzky.microvault.encryption.symmetric.AesGcmDecryption
 import net.palatzky.microvault.encryption.symmetric.AesGcmEncryption
+import net.palatzky.microvault.session.Session
 import net.palatzky.microvault.util.*
 import net.palatzky.microvault.vault.DecryptionDecorator
 import net.palatzky.microvault.vault.EncryptionDecorator
@@ -32,19 +33,20 @@ class VaultService {
 	private var options: Options? = null
 
 	fun publish() {
-		println("HELLO TEST")
 	}
 
-	fun get(vault: Vault, key: String): String? {
+	fun get(key: String): String? {
+		val vault = this.vault ?: throw Exception("Vault is not open yet.")
 		return vault.get(key)
 	}
 
-	fun set(vault: Vault, key: String, value: String) {
+	fun set(key: String, value: String) {
+		val vault = this.vault ?: throw Exception("Vault is not open yet.")
 		vault.set(key, value)
 	}
 
-	fun open(path: Path, password: String) {
-		val factory = VaultFactory.fromFile(path, password)
+	fun open(path: Path, key: Key?) {
+		val factory = VaultFactory.fromFile(path, key)
 
 		this.vault = factory.vault
 		this.options = factory.options
@@ -55,16 +57,19 @@ class VaultService {
 	}
 
 	fun list() {
-
+		val vault = this.vault ?: throw Exception("Vault is not open yet.")
 	}
 
-	fun write(vault: Vault, options: Options, path: Path, password: String) {
+	fun write(path: Path) {
+		val vault = this.vault ?: throw Exception("Vault is not open yet.")
+		val options = this.options ?: throw Exception("Vault is not open yet.")
+
 		val vaultSerializer = VaultSerializer()
 		val stream = Files.newOutputStream(path)
-		vaultSerializer.serialize(vault, options, stream, password)
+		vaultSerializer.serialize(vault, options, stream)
 	}
 
-	fun create(path: Path, password: String, mode: Options.EncryptionMode) {
+	fun create(path: Path, key: Key, mode: Options.EncryptionMode) {
 		// create write/read key depending on encryption mode.
 		val (decryptionKey, encryptionKey) = createReadWriteKey(mode)
 
@@ -80,15 +85,22 @@ class VaultService {
 			salt = salt,
 			mode = mode,
 			encryptionKey = encryptionKey,
-			decryptionKey = decryptionKey
+			decryptionKey = decryptionKey,
+			pbeKey = key
 		)
 
-		this.write(vault, options, path, password)
+		this.vault = vault
+		this.options = options
+		this.write(path)
 	}
 
 }
 
-// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault create --mode=asymmetric
-// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault open
-// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault get exampleKey
-// --password=test --file=C:\Users\kevin\workspace\microsecrets\test.vault set exampleKey2 exampleValue2
+// --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault create --mode=asymmetric
+// --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault open
+
+// --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault set exampleKey exampleValue2
+// --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault get exampleKey
+
+// --file=C:\Users\kevin\workspace\microsecrets\micro.vault set exampleKey3 exampleValue3
+// --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault get exampleKey3

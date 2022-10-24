@@ -25,8 +25,8 @@ class SetCommand(
 
 	override fun run() {
 		// open vault & get value of passed key
-		val vault = vaultService.open(entryCommand.file, entryCommand.password)
-		vaultService.set(vault, key, value)
-		vaultService.write(vault, entryCommand.file, entryCommand.password)
+		vaultService.open(entryCommand.file, entryCommand.key)
+		vaultService.set(key, value)
+		vaultService.write(entryCommand.file)
 	}
 }

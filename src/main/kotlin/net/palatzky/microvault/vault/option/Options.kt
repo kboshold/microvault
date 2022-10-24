@@ -18,5 +18,5 @@ interface Options {
 
 	val decryptionKey: Key
 
-
+	val pbeKey: Key?
 }

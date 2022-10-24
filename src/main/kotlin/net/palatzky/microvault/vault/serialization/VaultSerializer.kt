@@ -3,6 +3,7 @@ package net.palatzky.microvault.vault.serialization
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
+import net.palatzky.microvault.encryption.PassThroughKey
 import net.palatzky.microvault.encryption.pbe.PbeEncryption
 import net.palatzky.microvault.util.createPBEKey
 import net.palatzky.microvault.util.encodeKey
@@ -30,22 +31,24 @@ class VaultSerializer() {
 	 * @param output
 	 * @param password
 	 */
-	fun serialize(vault: Vault, options: Options, output: OutputStream, password: String) {
-//		val encryption = vault.encryption;
-//		var decryption = vault.decryption;
-
+	fun serialize(vault: Vault, options: Options, output: OutputStream) {
 		val base64 = Base64.getEncoder()
 		val salt = base64.encodeToString(options.salt)
 
-		val pbeKey = createPBEKey(password)
-		val pbeEncryption = PbeEncryption(pbeKey, options.salt)
-
+//		val pbeKey = createPBEKey(password)
 		// encode write/read key using base64
+
 		val encodedEncryptionKey = encodeKey(options.encryptionKey)
 		val encodedDecryptionKey = encodeKey(options.decryptionKey)
 
 		// only encrypt read key since the public key should be readable
-		val encryptedDecryptionKey = base64.encodeToString(pbeEncryption.encrypt(encodedDecryptionKey))
+		val pbeKey = options.pbeKey
+		val encryptedDecryptionKey = if (pbeKey != null && options.decryptionKey !is PassThroughKey) {
+		val pbeEncryption = PbeEncryption(pbeKey, options.salt)
+     base64.encodeToString(pbeEncryption.encrypt(encodedDecryptionKey))
+		} else {
+			encodedDecryptionKey
+		}
 
 		//
 		val encryptionOptions = if (encodedEncryptionKey === encodedDecryptionKey) {

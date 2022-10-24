@@ -43,10 +43,10 @@ class VaultFactory() {
 		 * @param password
 		 * @return
 		 */
-		fun fromFile(location: Path, password: String?): VaultFactory {
+		fun fromFile(location: Path, pbeKey: Key?): VaultFactory {
 			val content = Files.readString(location, Charsets.UTF_8)
 			val vaultFactory = VaultFactory();
-			vaultFactory.parse(content, password)
+			vaultFactory.parse(content, pbeKey)
 			return vaultFactory
 		}
 	}
@@ -70,7 +70,7 @@ class VaultFactory() {
 	 * @param password
 	 * @return
 	 */
-	fun parse(content: String, password: String?) {
+	fun parse(content: String, pbeKey: Key?) {
 		val vaultData = parseVaultData(content);
 
 		val mode = vaultData.encryption.mode;
@@ -82,8 +82,7 @@ class VaultFactory() {
 		val decodedEncryptionKey = decoder.decode(vaultData.encryption.key ?: vaultData.encryption.encryptionKey)
 
 		var decryptionKey: Key? = null;
-		if (password != null) {
-			val pbeKey = createPBEKey(password)
+		if (pbeKey != null) {
 			val pbeDecryption = PbeDecryption(pbeKey, salt)
 
 			val encodedDecryptionKey = decoder.decode(
@@ -114,7 +113,7 @@ class VaultFactory() {
 			}
 		}
 
-		var vault: Vault = MicroVault();
+		var vault: Vault = MicroVault(vaultData.data);
 
 		if (encryptionKey != null) {
 			val encryption = createEncryption(mode, encryptionKey)
@@ -126,16 +125,13 @@ class VaultFactory() {
 			vault = DecryptionDecorator(decryption, vault);
 		}
 
-		vaultData.data.forEach {
-			vault.set(it.key, it.value)
-		}
-
 		this.vault = vault;
 		this.options = MicroOptions(
 			salt = salt,
 			mode = mode,
-			encryptionKey = encryptionKey ?: PassThroughKey(decoder.decode(decodedEncryptionKey)),
-			decryptionKey = decryptionKey ?: PassThroughKey(decoder.decode(decodedDecryptionKey))
+			encryptionKey = encryptionKey ?: PassThroughKey(decodedEncryptionKey),
+			decryptionKey = decryptionKey ?: PassThroughKey(decodedDecryptionKey),
+			pbeKey = pbeKey
 		)
 	}
 

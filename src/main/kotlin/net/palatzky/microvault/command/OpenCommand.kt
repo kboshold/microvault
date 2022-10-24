@@ -2,7 +2,6 @@ package net.palatzky.microvault.command
 
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
-import java.io.File
 
 /**
  * Opens a existing vault
@@ -25,6 +24,6 @@ class OpenCommand(
 	lateinit var entryCommand: EntryCommand;
 
 	override fun run() {
-		vaultService.open(entryCommand.file, entryCommand.password);
+		vaultService.open(entryCommand.file, entryCommand.key);
 	}
 }

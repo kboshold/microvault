@@ -2,7 +2,6 @@ package net.palatzky.microvault.command
 
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
-import java.io.File
 
 /**
  * Returns the value of the passed key
@@ -23,8 +22,8 @@ class GetCommand(
 
 	override fun run() {
 		// open vault & get value of passed key
-		val vault = vaultService.open(entryCommand.file, entryCommand.password)
-		val value = vaultService.get(vault, key)
+		vaultService.open(entryCommand.file, entryCommand.key)
+		val value = vaultService.get(key)
 
 		// write value
 		print(value ?: "")

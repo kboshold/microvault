@@ -1,8 +1,10 @@
 package net.palatzky.microvault.command
 
 import io.quarkus.picocli.runtime.annotations.TopCommand
+import net.palatzky.microvault.command.converter.KeyConverter
 import picocli.CommandLine
 import java.nio.file.Path
+import java.security.Key
 
 /**
  * Entry command
@@ -20,8 +22,8 @@ import java.nio.file.Path
 	CloseCommand::class
 ])
 class EntryCommand  {
-	@CommandLine.Option(names = ["-p", "--password"], description = ["Password to use for the micro vault"], interactive = true)
-	lateinit var password: String
+	@CommandLine.Option(names = ["-p", "--password"], description = ["Password to use for the micro vault"], interactive = true, converter = [KeyConverter::class])
+	var key: Key? = null
 
 	@CommandLine.Option(names = ["-f", "--file"], description = ["Path of the micro vault"], interactive = true)
 	lateinit var file: Path
