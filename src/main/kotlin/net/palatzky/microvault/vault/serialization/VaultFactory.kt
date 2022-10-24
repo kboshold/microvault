@@ -4,11 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import net.palatzky.microvault.encryption.EmptyKey
 import net.palatzky.microvault.encryption.PassThroughKey
 import net.palatzky.microvault.encryption.pbe.PbeDecryption
-import net.palatzky.microvault.service.VaultService
 import net.palatzky.microvault.util.createDecryption
 import net.palatzky.microvault.util.createEncryption
-import net.palatzky.microvault.util.createPBEKey
-import net.palatzky.microvault.util.toPair
 import net.palatzky.microvault.vault.DecryptionDecorator
 import net.palatzky.microvault.vault.EncryptionDecorator
 import net.palatzky.microvault.vault.MicroVault
@@ -20,8 +17,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.security.Key
 import java.security.KeyFactory
-import java.security.PrivateKey
-import java.security.PublicKey
 import java.security.spec.EncodedKeySpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
@@ -93,9 +88,9 @@ class VaultFactory() {
 			)
 
 			decryptionKey = when (mode) {
-				Options.EncryptionMode.plain -> EmptyKey
-				Options.EncryptionMode.symmetric -> SecretKeySpec(encodedDecryptionKey, "AES")
-				Options.EncryptionMode.asymmetric -> {
+				Options.EncryptionMode.PLAIN -> EmptyKey
+				Options.EncryptionMode.SYMMETRIC -> SecretKeySpec(encodedDecryptionKey, "AES")
+				Options.EncryptionMode.ASYMMETRIC -> {
 					val generator = KeyFactory.getInstance("RSA")
 					val privateKeySpec: EncodedKeySpec = PKCS8EncodedKeySpec(encodedDecryptionKey)
 					generator.generatePrivate(privateKeySpec)
@@ -104,9 +99,9 @@ class VaultFactory() {
 		}
 
 		val encryptionKey = when (mode) {
-			Options.EncryptionMode.plain -> EmptyKey
-			Options.EncryptionMode.symmetric -> decryptionKey
-			Options.EncryptionMode.asymmetric -> {
+			Options.EncryptionMode.PLAIN -> EmptyKey
+			Options.EncryptionMode.SYMMETRIC -> decryptionKey
+			Options.EncryptionMode.ASYMMETRIC -> {
 				val generator = KeyFactory.getInstance("RSA")
 				val publicKeySpec: EncodedKeySpec = X509EncodedKeySpec(decodedEncryptionKey)
 				generator.generatePublic(publicKeySpec)

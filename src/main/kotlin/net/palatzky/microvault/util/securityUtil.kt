@@ -49,9 +49,9 @@ fun createKeyPair(): KeyPair {
  */
 fun createDecryption(mode: Options.EncryptionMode, key: Key): Decryption {
 	return when (mode) {
-		Options.EncryptionMode.asymmetric -> RsaEcbDecryption(key)
-		Options.EncryptionMode.symmetric -> AesGcmDecryption(key)
-		Options.EncryptionMode.plain -> PlainDecryption()
+		Options.EncryptionMode.ASYMMETRIC -> RsaEcbDecryption(key)
+		Options.EncryptionMode.SYMMETRIC -> AesGcmDecryption(key)
+		Options.EncryptionMode.PLAIN -> PlainDecryption()
 	}
 }
 
@@ -64,9 +64,9 @@ fun createDecryption(mode: Options.EncryptionMode, key: Key): Decryption {
  */
 fun createEncryption(mode: Options.EncryptionMode, key: Key): Encryption {
 	return when (mode) {
-		Options.EncryptionMode.asymmetric -> RsaEcbEncryption(key)
-		Options.EncryptionMode.symmetric -> AesGcmEncryption(key)
-		Options.EncryptionMode.plain -> PlainEncryption()
+		Options.EncryptionMode.ASYMMETRIC -> RsaEcbEncryption(key)
+		Options.EncryptionMode.SYMMETRIC -> AesGcmEncryption(key)
+		Options.EncryptionMode.PLAIN -> PlainEncryption()
 	}
 }
 
@@ -78,9 +78,9 @@ fun createEncryption(mode: Options.EncryptionMode, key: Key): Encryption {
  */
 fun createReadWriteKey(mode: Options.EncryptionMode): Pair<Key, Key> {
 	return when (mode) {
-		Options.EncryptionMode.asymmetric -> createKeyPair().let { it.private to it.public }
-		Options.EncryptionMode.symmetric -> createSecretKey().toPair()
-		Options.EncryptionMode.plain -> EmptyKey.toPair()
+		Options.EncryptionMode.ASYMMETRIC -> createKeyPair().let { it.private to it.public }
+		Options.EncryptionMode.SYMMETRIC -> createSecretKey().toPair()
+		Options.EncryptionMode.PLAIN -> EmptyKey.toPair()
 	}
 }
 
