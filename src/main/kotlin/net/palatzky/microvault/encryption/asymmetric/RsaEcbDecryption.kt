@@ -15,7 +15,7 @@ class RsaEcbDecryption (
 ): Decryption {
 
 	override fun decrypt(content: ByteArray, authenticationData: String?): String {
-		val cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
+		val cipher = Cipher.getInstance("RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING")
 		cipher.init(Cipher.DECRYPT_MODE, key)
 		return cipher.doFinal(content).toString(Charsets.UTF_8)
 	}
