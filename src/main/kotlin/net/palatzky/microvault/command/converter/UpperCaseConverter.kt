@@ -4,10 +4,8 @@ import net.palatzky.microvault.util.createPBEKey
 import picocli.CommandLine.ITypeConverter
 import java.security.Key
 
-class KeyConverter : ITypeConverter<Key?> {
-	override fun convert(value: String?): Key? {
-		return value?.let {
-			createPBEKey(it)
-		}
+class UpperCaseConverter : ITypeConverter<String?> {
+	override fun convert(value: String?): String? {
+		return value?.uppercase()
 	}
 }
