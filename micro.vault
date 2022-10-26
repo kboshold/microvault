@@ -1,5 +1,5 @@
 {
-  "version" : "1.0.0",
+  "version" : "1",
   "encryption" : {
     "mode" : "ASYMMETRIC",
     "salt" : "+v5pSar7noZwozxm12VtKWswd/4L95p7Z2uJ7JrQyYJF3fhwyFbIoWUW",

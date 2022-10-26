@@ -73,7 +73,7 @@ class VaultSerializer() {
 		}
 
 		val vaultData = VaultData(
-			version = "1.0.0",
+			version = "1",
 			encryption = encryptionOptions,
 			data = rawVault.entries.associate {
 				it.key to it.value

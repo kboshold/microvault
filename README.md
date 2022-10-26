@@ -119,18 +119,18 @@ $MIVA open --interative
 
 ## Vault file
 
-```json
+```json5
 {
-  "version": "1.0.0",
+  "version": "1",
   "encryption": {
-    "mode": "asymmetric",
+    "mode": "asymmetric", // asymmetric | symmetric | plain
     "salt": "<SALT_ENCODED>",
-    "readKey": "<READ_KEY_ENCRYPTED>",
-    "writeKey": "<WRITE_KEY_ENCRYPTED>",
-    "key": "<READ_WRITE_KEY_ENCRYPTED>"
+    "readKey": "<READ_KEY_ENCRYPTED>", // for asymmetric decryption
+    "writeKey": "<WRITE_KEY_ENCRYPTED>", // for asymmetric encryption
+    "key": "<READ_WRITE_KEY_ENCRYPTED>" // for asymmetric decryption/encryption
   },
   "data": {
-    "<ENCRYPTED_KEY>": "<ENCRYPTED_VALUE>"
+    "<KEY>": "<ENCRYPTED_VALUE>"
   }
 }
 ```
