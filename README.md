@@ -1,36 +1,51 @@
 <div align="center">
-	<p>
-	<a href="https://github.com/kpalatzky/microvault#is=awesome">
-            <img src="src/main/resources/assets/logo.svg" alt="MicroVault Logo" width="80%"/>
-        </a>
-    </p>
-    <p>    
-	<a href="https://www.codacy.com/gh/kpalatzky/microvault/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kpalatzky/microvault&amp;utm_campaign=Badge_Grade">
-		<img src="https://app.codacy.com/project/badge/Grade/4f7a56fe9664480db770eb9895d6fcf6"/>
-	    </a>
-	    <a href="https://codeclimate.com/github/kpalatzky/microvault/maintainability"><img src="https://api.codeclimate.com/v1/badges/6274c23c9c7ce87a807b/maintainability" alt="Maintainability" /></a>
-	    <a href="https://codeclimate.com/github/kpalatzky/microvault/test_coverage"><img src="https://api.codeclimate.com/v1/badges/6274c23c9c7ce87a807b/test_coverage" alt="Test coverage"/></a>
-	    </p><p>
-	    <a href="https://github.com/kpalatzky/microvault/releases/latest">
-     <img src="https://badge.fury.io/gh/kpalatzky%2Fmicrovault.svg" alt="GitHub version">
-    </a>    <a href="https://github.com/kpalatzky/microvault/blob/master/LICENSE">
-     <img src="https://img.shields.io/github/license/kpalatzky/microvault.svg" alt="MIT License">
-    </a>
-    <a href="https://app.dependabot.com/">
+   <p>
+      <a href="https://github.com/kpalatzky/microvault#is=awesome">
+      <img src="src/main/resources/assets/logo.svg" alt="MicroVault Logo" width="80%"/>
+      </a>
+   </p>
+   <p>    
+      <a href="https://sonarcloud.io/project/issues?resolved=false&types=BUG&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=bugs"/>
+      </a>
+      <a href="https://sonarcloud.io/project/issues?resolved=false&types=VULNERABILITY&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=vulnerabilities"/>
+      </a>
+      <a href="https://sonarcloud.io/component_measures?metric=duplicated_lines_density&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=duplicated_lines_density"/>
+      </a>
+      <a href="https://sonarcloud.io/component_measures?metric=Reliability&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=reliability_rating"/>
+      </a>
+      <a href="https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=code_smells"/>
+      </a>
+      <a href="https://sonarcloud.io/component_measures?metric=Maintainability&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=sqale_rating"/>
+      </a>
+      <a href="https://sonarcloud.io/component_measures?metric=Security&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=security_rating"/>
+      </a>
+   </p>
+   <p>
+      <a href="https://github.com/kpalatzky/microvault/releases/latest">
+      <img src="https://badge.fury.io/gh/kpalatzky%2Fmicrovault.svg" alt="GitHub version">
+      </a>    <a href="https://github.com/kpalatzky/microvault/blob/master/LICENSE">
+      <img src="https://img.shields.io/github/license/kpalatzky/microvault.svg" alt="MIT License">
+      </a>
+      <a href="https://app.dependabot.com/">
       <img src="https://img.shields.io/badge/Dependabot-active-brightgreen.svg?logo=dependabot" alt="Dependabot active">
-    </a>
-	</p>
-	<p>
-	</p>
-	<hr>
-	<p>
-		Keep your secrets secret. Tool to manage secrets in your public and private repositories. 
-		<br>
-		<strong>THIS PROJECT IS STILL UNDER DEVELOPMENT - DO NOT USE IT FOR PRODUCTION USE</strong>
-	</p>
+      </a>
+   </p>
+   <p>
+   </p>
+   <hr>
+   <p>
+      Keep your secrets secret. Tool to manage secrets in your public and private repositories. 
+      <br>
+      <strong>THIS PROJECT IS STILL UNDER DEVELOPMENT - DO NOT USE IT FOR PRODUCTION USE</strong>
+   </p>
 </div>
-
-
 
 ## State of development
 
@@ -43,7 +58,6 @@
 | microvault open    | :x:                   |
 | microvault close   | :x:                   |
 | microvault publish | :x:                   |
-
 
 ## Get started
 
@@ -106,22 +120,24 @@ $MIVA open --interative
 
 ```json
 {
-  "version" : "1.0.0",
-  "encryption" : {
-    "mode" : "asymmetric",
-    "salt" : "<SALT_ENCODED>",
-    "readKey" : "<READ_KEY_ENCRYPTED>",
-    "writeKey" : "<WRITE_KEY_ENCRYPTED>",
+  "version": "1.0.0",
+  "encryption": {
+    "mode": "asymmetric",
+    "salt": "<SALT_ENCODED>",
+    "readKey": "<READ_KEY_ENCRYPTED>",
+    "writeKey": "<WRITE_KEY_ENCRYPTED>",
     "key": "<READ_WRITE_KEY_ENCRYPTED>"
   },
-  "data" : {
+  "data": {
     "<ENCRYPTED_KEY>": "<ENCRYPTED_VALUE>"
   }
 }
 ```
 
 ## Development
+
 ### Native Build
+
 ```shell
 ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true -Dquarkus.banner.enabled=false -Dquarkus.log.console.enable=false
 ```
