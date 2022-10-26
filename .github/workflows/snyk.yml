@@ -22,6 +22,8 @@ jobs:
           node-version: 16
       - name: install Snyk CLI
         run: npm install -g snyk
+      - name: Snyk auth
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: run Snyk Open Source Test
         run: snyk test
 # No code test since kotlin is not supported yet
