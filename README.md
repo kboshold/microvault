@@ -4,26 +4,29 @@
       <img src="src/main/resources/assets/logo.svg" alt="MicroVault Logo" width="80%"/>
       </a>
    </p>
-   <p>    
+   <p>  
+      <a href="https://sonarcloud.io/component_measures?metric=Security&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=security_rating"/>
+      </a>
+            <a href="https://sonarcloud.io/component_measures?metric=Reliability&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=reliability_rating"/>
+      </a>
+            <a href="https://sonarcloud.io/component_measures?metric=Maintainability&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=sqale_rating"/>
+      </a>
       <a href="https://sonarcloud.io/project/issues?resolved=false&types=BUG&id=kpalatzky_microvault">
       <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=bugs"/>
       </a>
       <a href="https://sonarcloud.io/project/issues?resolved=false&types=VULNERABILITY&id=kpalatzky_microvault">
       <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=vulnerabilities"/>
       </a>
-      <a href="https://sonarcloud.io/component_measures?metric=duplicated_lines_density&id=kpalatzky_microvault">
-      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=duplicated_lines_density"/>
-      </a>
-      <a href="https://sonarcloud.io/component_measures?metric=Reliability&id=kpalatzky_microvault">
-      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=reliability_rating"/>
-      </a>
+      <br>
       <a href="https://sonarcloud.io/project/issues?resolved=false&types=CODE_SMELL&id=kpalatzky_microvault">
       <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=code_smells"/>
       </a>
-      <a href="https://sonarcloud.io/component_measures?metric=Maintainability&id=kpalatzky_microvault">
-      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=sqale_rating"/>
+      <a href="https://sonarcloud.io/component_measures?metric=duplicated_lines_density&id=kpalatzky_microvault">
+      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=duplicated_lines_density"/>
       </a>
-
    </p>
    <p>
       <a href="https://github.com/kpalatzky/microvault/releases/latest">
