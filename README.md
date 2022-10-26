@@ -20,8 +20,12 @@
 	<hr>
 	<p>
 		Keep your secrets secret. Tool to manage secrets in your public and private repositories. 
+		<br>
+		<strong>THIS PROJECT IS STILL UNDER DEVELOPMENT - DO NOT USE IT FOR PRODUCTION USE</strong>
 	</p>
 </div>
+
+
 
 ## State of development
 
@@ -30,7 +34,7 @@
 | microvault create  | :heavy_check_mark:    |
 | microvault get     | :heavy_check_mark:    |
 | microvault set     | :heavy_check_mark:    |
-| microvault list    | :x:                   |
+| microvault list    | :heavy_check_mark:    |
 | microvault open    | :x:                   |
 | microvault close   | :x:                   |
 | microvault publish | :x:                   |
