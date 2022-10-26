@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import net.palatzky.microvault.encryption.PassThroughKey
 import net.palatzky.microvault.encryption.pbe.PbeEncryption
-import net.palatzky.microvault.util.createPBEKey
 import net.palatzky.microvault.util.encodeKey
 import net.palatzky.microvault.vault.DecryptionDecorator
 import net.palatzky.microvault.vault.EncryptionDecorator

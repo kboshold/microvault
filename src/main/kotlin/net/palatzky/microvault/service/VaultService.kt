@@ -30,12 +30,12 @@ class VaultService {
 	}
 
 	fun get(key: String): String? {
-		val vault = this.vault ?: throw Exception("Vault is not open yet.")
+		val vault = this.verifyVault()
 		return vault.get(key)
 	}
 
 	fun set(key: String, value: String) {
-		val vault = this.vault ?: throw Exception("Vault is not open yet.")
+		val vault = this.verifyVault()
 		vault.set(key, value)
 	}
 
@@ -52,7 +52,7 @@ class VaultService {
 	}
 
 	fun list(format: ListFormat): String {
-		val vault = this.vault ?: throw Exception("Vault is not open yet.")
+		val vault = this.verifyVault()
 
 		if (format == ListFormat.PLAIN) {
 			return vault.entries.map {
@@ -103,8 +103,8 @@ class VaultService {
 	}
 
 	fun write(path: Path) {
-		val vault = this.vault ?: throw Exception("Vault is not open yet.")
-		val options = this.options ?: throw Exception("Vault is not open yet.")
+		val vault = this.verifyVault()
+		val options = this.verifyOptions()
 
 		val vaultSerializer = VaultSerializer()
 		val stream = Files.newOutputStream(path)
@@ -135,6 +135,13 @@ class VaultService {
 		this.write(path)
 	}
 
+	private fun verifyVault(): Vault {
+		return this.vault ?: throw Exception("Vault is not open yet")
+	}
+
+	private fun verifyOptions(): Options {
+		return this.options ?: throw Exception("Vault is not open yet")
+	}
 }
 
 // --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault create --mode=asymmetric
