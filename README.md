@@ -8,8 +8,13 @@
 	<a href="https://www.codacy.com/gh/kpalatzky/microvault/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kpalatzky/microvault&amp;utm_campaign=Badge_Grade">
 		<img src="https://app.codacy.com/project/badge/Grade/4f7a56fe9664480db770eb9895d6fcf6"/>
 	    </a>
+	    <a href="https://codeclimate.com/github/kpalatzky/microvault/maintainability"><img src="https://api.codeclimate.com/v1/badges/6274c23c9c7ce87a807b/maintainability" alt="Maintainability" /></a>
+	    <a href="https://codeclimate.com/github/kpalatzky/microvault/test_coverage"><img src="https://api.codeclimate.com/v1/badges/6274c23c9c7ce87a807b/test_coverage" alt="Test coverage"/></a>
+	    </p><p>
 	    <a href="https://github.com/kpalatzky/microvault/releases/latest">
      <img src="https://badge.fury.io/gh/kpalatzky%2Fmicrovault.svg" alt="GitHub version">
+    </a>    <a href="https://github.com/kpalatzky/microvault/blob/master/LICENSE">
+     <img src="https://img.shields.io/github/license/kpalatzky/microvault.svg" alt="MIT License">
     </a>
     <a href="https://app.dependabot.com/">
       <img src="https://img.shields.io/badge/Dependabot-active-brightgreen.svg?logo=dependabot" alt="Dependabot active">
