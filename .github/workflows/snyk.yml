@@ -14,18 +14,15 @@ jobs:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - uses: actions/checkout@v2
-      - name: Build
-        run: ./gradlew build
-      - name: Set up Node 16
-        uses: actions/setup-node@v3
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/gradle@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          node-version: 16
-      - name: install Snyk CLI
-        run: npm install -g snyk
-      - name: Snyk auth
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
-      - name: run Snyk Open Source Test
-        run: snyk test
-# No code test since kotlin is not supported yet
-#      - name: run Snyk Code Test
-#        run: snyk code test
+          args: --sarif-file-output=snyk.sarif
+          command: monitor
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
