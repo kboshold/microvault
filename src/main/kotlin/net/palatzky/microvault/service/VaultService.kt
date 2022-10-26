@@ -27,6 +27,7 @@ class VaultService {
 	private var options: Options? = null
 
 	fun publish() {
+		TODO()
 	}
 
 	fun get(key: String): String? {
