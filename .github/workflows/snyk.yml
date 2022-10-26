@@ -1,0 +1,29 @@
+name: Snyk
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: ./gradlew build
+      - name: Set up Node 16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install Snyk CLI
+        run: npm install -g snyk
+      - name: run Snyk Open Source Test
+        run: snyk test
+# No code test since kotlin is not supported yet
+#      - name: run Snyk Code Test
+#        run: snyk code test
