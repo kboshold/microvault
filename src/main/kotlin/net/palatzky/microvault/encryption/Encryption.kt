@@ -1,6 +1,5 @@
 package net.palatzky.microvault.encryption
 
-import java.nio.ByteBuffer
 import java.security.Key
 
 /**

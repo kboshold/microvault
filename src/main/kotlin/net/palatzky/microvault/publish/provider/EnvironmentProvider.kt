@@ -1,8 +1,6 @@
 package net.palatzky.microvault.publish.provider
 
 import net.palatzky.microvault.vault.Vault
-import java.lang.reflect.Field
-import java.util.*
 
 /**
  * Environment provider

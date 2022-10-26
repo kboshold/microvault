@@ -1,7 +1,6 @@
 package net.palatzky.microvault.command
 
 import net.palatzky.microvault.command.converter.EncryptionModeConverter
-import net.palatzky.microvault.command.converter.UpperCaseConverter
 import net.palatzky.microvault.service.VaultService
 import net.palatzky.microvault.vault.option.Options
 import picocli.CommandLine

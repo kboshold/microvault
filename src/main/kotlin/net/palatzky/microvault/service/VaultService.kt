@@ -1,11 +1,5 @@
 package net.palatzky.microvault.service
 
-import net.palatzky.microvault.encryption.*
-import net.palatzky.microvault.encryption.asymmetric.RsaEcbDecryption
-import net.palatzky.microvault.encryption.asymmetric.RsaEcbEncryption
-import net.palatzky.microvault.encryption.symmetric.AesGcmDecryption
-import net.palatzky.microvault.encryption.symmetric.AesGcmEncryption
-import net.palatzky.microvault.session.Session
 import net.palatzky.microvault.util.*
 import net.palatzky.microvault.vault.DecryptionDecorator
 import net.palatzky.microvault.vault.EncryptionDecorator
@@ -18,12 +12,6 @@ import net.palatzky.microvault.vault.serialization.VaultSerializer
 import java.nio.file.Files
 import java.nio.file.Path
 import java.security.Key
-import java.security.KeyPair
-import java.security.KeyPairGenerator
-import java.security.SecureRandom
-import java.util.*
-import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
 import javax.enterprise.context.Dependent
 
 @Dependent

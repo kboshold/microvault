@@ -23,9 +23,7 @@
       <a href="https://sonarcloud.io/component_measures?metric=Maintainability&id=kpalatzky_microvault">
       <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=sqale_rating"/>
       </a>
-      <a href="https://sonarcloud.io/component_measures?metric=Security&id=kpalatzky_microvault">
-      <img src="https://sonarcloud.io/api/project_badges/measure?project=kpalatzky_microvault&metric=security_rating"/>
-      </a>
+
    </p>
    <p>
       <a href="https://github.com/kpalatzky/microvault/releases/latest">

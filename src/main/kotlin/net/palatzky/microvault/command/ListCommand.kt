@@ -2,7 +2,6 @@ package net.palatzky.microvault.command
 
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
-import java.nio.file.Path
 
 /**
  * List all entries of this vault

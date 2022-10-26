@@ -11,28 +11,36 @@ import net.palatzky.microvault.vault.Vault
 class KubernetesProvider(
 	private val name: String
 ) : Provider {
+
+	companion object {
+		val KEY_DOCKER_USERNAME = "docker-username";
+		val KEY_DOCKER_PASSWORD = "docker-password";
+
+		val KEY_DOCKER_SERVER = "docker-server"
+		val KEY_DOCKER_EMAIL = "docker-email";
+	}
 	override fun export(vault: Vault, options: ExportOptions) {
 		val values = options.mapping.map {(kubernetesKey, vaultKey) ->
 			kubernetesKey to vault.get(vaultKey)
 		}.toMap().toMutableMap()
 
 		val builder = ProcessBuilder()
-		if (values.containsKey("docker-username") && values.containsKey("docker-password")) {
-			var genericOptions = "--docker-username=${values["docker-username"]} --docker-password=${values["docker-password"]}"
-			if (values.containsKey("docker-server")) {
-				genericOptions += " --docker-server=${values["docker-server"]}"
+		if (values.containsKey(KEY_DOCKER_USERNAME) && values.containsKey(KEY_DOCKER_PASSWORD)) {
+			var genericOptions = "--docker-username=${values[KEY_DOCKER_USERNAME]} --docker-password=${values[KEY_DOCKER_PASSWORD]}"
+			if (values.containsKey(KEY_DOCKER_SERVER)) {
+				genericOptions += " --docker-server=${values[KEY_DOCKER_SERVER]}"
 			}
-			if (values.containsKey("docker-email")) {
-				genericOptions += " --docker-server=${values["docker-email"]}"
+			if (values.containsKey(KEY_DOCKER_EMAIL)) {
+				genericOptions += " --docker-email=${values[KEY_DOCKER_EMAIL]}"
 			}
 			builder.command("kubectl create secret docker-registry $name $genericOptions")
 
 			val process = builder.start()
 
-			values.remove("docker-username");
-			values.remove("docker-password");
-			values.remove("docker-server")
-			values.remove("docker-email");
+			values.remove(KEY_DOCKER_USERNAME);
+			values.remove(KEY_DOCKER_PASSWORD);
+			values.remove(KEY_DOCKER_SERVER)
+			values.remove(KEY_DOCKER_EMAIL);
 
 			process.waitFor()
 		}
