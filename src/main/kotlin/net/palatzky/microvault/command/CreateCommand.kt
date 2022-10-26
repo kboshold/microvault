@@ -1,5 +1,7 @@
 package net.palatzky.microvault.command
 
+import net.palatzky.microvault.command.converter.EncryptionModeConverter
+import net.palatzky.microvault.command.converter.UpperCaseConverter
 import net.palatzky.microvault.service.VaultService
 import net.palatzky.microvault.vault.option.Options
 import picocli.CommandLine
@@ -16,7 +18,7 @@ class CreateCommand(
 	private val vaultService: VaultService
 ) : Runnable {
 
-	@CommandLine.Option(names = ["-m", "--mode"], description = ["Encryption mode"], defaultValue = "asymmetric")
+	@CommandLine.Option(names = ["-m", "--mode"], description = ["Encryption mode"], defaultValue = "ASYMMETRIC", converter = [EncryptionModeConverter::class])
 	var mode: Options.EncryptionMode = Options.EncryptionMode.ASYMMETRIC
 
 	@CommandLine.ParentCommand

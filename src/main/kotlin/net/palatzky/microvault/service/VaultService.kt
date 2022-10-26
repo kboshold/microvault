@@ -59,7 +59,8 @@ class VaultService {
 	}
 
 	fun close() {
-
+		this.vault = null
+		this.options = null
 	}
 
 	fun list(format: ListFormat): String {
@@ -132,7 +133,6 @@ class VaultService {
 
 		val salt = createRandomSalt()
 		val vault = EncryptionDecorator(encryption, DecryptionDecorator(decryption, MicroVault()))
-		vault.set("exampleKey", "exampleValue")
 
 		val options = MicroOptions(
 			salt = salt,

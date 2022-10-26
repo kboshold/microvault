@@ -65,9 +65,9 @@ class VaultSerializer() {
 		}
 
 		var rawVault = vault;
-		while (vault is DecryptionDecorator || vault is EncryptionDecorator) {
-			rawVault = if (vault is DecryptionDecorator) {
-				(rawVault as DecryptionDecorator).vault;
+		while (rawVault is DecryptionDecorator || rawVault is EncryptionDecorator) {
+			rawVault = if (rawVault is DecryptionDecorator) {
+				rawVault.vault
 			} else {
 				(rawVault as EncryptionDecorator).vault;
 			}
@@ -76,7 +76,7 @@ class VaultSerializer() {
 		val vaultData = VaultData(
 			version = "1.0.0",
 			encryption = encryptionOptions,
-			data = vault.entries.associate {
+			data = rawVault.entries.associate {
 				it.key to it.value
 			}
 		)
