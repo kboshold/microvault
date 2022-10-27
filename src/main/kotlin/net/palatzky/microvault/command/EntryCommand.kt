@@ -19,7 +19,8 @@ import java.security.Key
 	SetCommand::class,
 	PublishCommand::class,
 	ListCommand::class,
-	CloseCommand::class
+	CloseCommand::class,
+	GenerateCommand::class
 ])
 class EntryCommand  {
 	@CommandLine.Option(names = ["-p", "--password"], description = ["Password to use for the micro vault"], interactive = true, converter = [KeyConverter::class])
