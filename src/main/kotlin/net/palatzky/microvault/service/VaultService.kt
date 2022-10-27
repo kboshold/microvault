@@ -1,5 +1,6 @@
 package net.palatzky.microvault.service
 
+import net.palatzky.microvault.encryption.PasswordGenerator
 import net.palatzky.microvault.util.*
 import net.palatzky.microvault.vault.DecryptionDecorator
 import net.palatzky.microvault.vault.EncryptionDecorator
@@ -38,6 +39,12 @@ class VaultService {
 	fun set(key: String, value: String) {
 		val vault = this.verifyVault()
 		vault.set(key, value)
+	}
+
+	fun generate(key: String) {
+		val vault = this.verifyVault()
+		val passwordGenerator = PasswordGenerator()
+		vault.set(key, passwordGenerator.generate())
 	}
 
 	fun open(path: Path, key: Key?) {
@@ -150,7 +157,7 @@ class VaultService {
 
 // --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault set exampleKey exampleValue2
 // --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault get exampleKey
-
+// --file=C:\Users\kevin\workspace\microsecrets\micro.vault generate exampleKey5
 // --file=C:\Users\kevin\workspace\microsecrets\micro.vault set exampleKey3 exampleValue3
 // --password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault get exampleKey3
 
