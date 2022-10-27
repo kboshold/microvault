@@ -55,6 +55,7 @@
 | microvault create  | :heavy_check_mark:    |
 | microvault get     | :heavy_check_mark:    |
 | microvault set     | :heavy_check_mark:    |
+| microvault generate| :heavy_check_mark:    |
 | microvault list    | :heavy_check_mark:    |
 | microvault open    | :x:                   |
 | microvault close   | :x:                   |
@@ -79,7 +80,7 @@ $(miva --password=YourPassword --file=./micro.vault open -e) # MICRO_VAULT_SESSI
 
 # add data to the vault
 miva set db.user Admin
-miva set db.password Admin123
+miva generate db.password
 
 miva set docker.user MicroVault
 miva set docker.email microvault@example.com
