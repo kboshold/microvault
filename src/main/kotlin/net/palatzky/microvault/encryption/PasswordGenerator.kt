@@ -5,7 +5,7 @@ import java.security.SecureRandom
 class PasswordGenerator {
 	companion object {
 		fun charArrayOfRange(start: Char, end: Char): CharArray {
-			return arrayOfNulls<Char>(end - start + 1).mapIndexed { index, _value ->
+			return arrayOfNulls<Char>(end - start + 1).mapIndexed { index, _ ->
 				start + index
 			}.toCharArray()
 		}
