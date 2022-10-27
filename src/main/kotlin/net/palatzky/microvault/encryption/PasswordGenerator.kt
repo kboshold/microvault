@@ -1,12 +1,11 @@
 package net.palatzky.microvault.encryption
 
 import java.security.SecureRandom
-import kotlin.random.asKotlinRandom
 
 class PasswordGenerator {
 	companion object {
 		fun charArrayOfRange(start: Char, end: Char): CharArray {
-			return arrayOfNulls<Char>(end - start + 1).mapIndexed { index, value ->
+			return arrayOfNulls<Char>(end - start + 1).mapIndexed { index, _value ->
 				start + index
 			}.toCharArray()
 		}
