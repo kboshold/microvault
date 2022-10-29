@@ -41,9 +41,16 @@ class VaultService {
 		vault.set(key, value)
 	}
 
-	fun generate(key: String) {
+	fun generate(key: String, length: Int?, upperCase: Int?, lowerCase: Int?, numeric: Int?, symbol: Int?) {
 		val vault = this.verifyVault()
 		val passwordGenerator = PasswordGenerator()
+
+		passwordGenerator.length = length ?: passwordGenerator.length
+		passwordGenerator.minUpperCase = upperCase ?: passwordGenerator.minUpperCase
+		passwordGenerator.minLowerCase = lowerCase ?: passwordGenerator.minLowerCase
+		passwordGenerator.minNumeric = numeric ?: passwordGenerator.minNumeric
+		passwordGenerator.minSymbol = symbol ?: passwordGenerator.minSymbol
+
 		vault.set(key, passwordGenerator.generate())
 	}
 

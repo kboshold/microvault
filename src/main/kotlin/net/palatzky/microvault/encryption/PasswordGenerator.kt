@@ -13,16 +13,16 @@ class PasswordGenerator {
 		private val ALPHA_UPPER_CHARACTERS = charArrayOfRange('A', 'Z')
 		private val ALPHA_LOWER_CHARACTERS = charArrayOfRange('a', 'z')
 		private val NUMERIC_CHARACTERS = charArrayOfRange('0', '9')
-		private val SPECIAL_CHARACTERS = charArrayOf('@', '#', '$', '&', '*', '|', ';', ':', '?', '!')
+		private val SYMBOL_CHARACTERS = charArrayOf('@', '#', '$', '&', '*', '|', ';', ':', '?', '!')
 
-		private val CHARACTERS = ALPHA_UPPER_CHARACTERS + ALPHA_LOWER_CHARACTERS + NUMERIC_CHARACTERS + SPECIAL_CHARACTERS
+		private val CHARACTERS = ALPHA_UPPER_CHARACTERS + ALPHA_LOWER_CHARACTERS + NUMERIC_CHARACTERS + SYMBOL_CHARACTERS
 	}
 
-	private var length: Int = 42
-	private val minUpperCase = 8
-	private val minLowerCase = 8
-	private val minNumeric = 4
-	private val minSpecial = 4
+	var length: Int = 42
+	var minUpperCase = 8
+	var minLowerCase = 8
+	var minNumeric = 4
+	var minSymbol = 4
 
 	fun generate(): String {
 		val upperCase =
@@ -30,13 +30,13 @@ class PasswordGenerator {
 		val lowerCase =
 			arrayOfNulls<Char>(this.minLowerCase).map { this.getRandomCharacter(ALPHA_LOWER_CHARACTERS) }
 		val numeric = arrayOfNulls<Char>(this.minNumeric).map { this.getRandomCharacter(NUMERIC_CHARACTERS) }
-		val special = arrayOfNulls<Char>(this.minSpecial).map { this.getRandomCharacter(SPECIAL_CHARACTERS) }
+		val symbol = arrayOfNulls<Char>(this.minSymbol).map { this.getRandomCharacter(SYMBOL_CHARACTERS) }
 
 		val remainingLength =
-			length.coerceAtMost((minUpperCase + minLowerCase + minNumeric + minSpecial))
+			length.coerceAtMost((minUpperCase + minLowerCase + minNumeric + minSymbol))
 		val other = arrayOfNulls<Char>(length - remainingLength).map { this.getRandomCharacter(CHARACTERS) }
 
-		val combined = upperCase + lowerCase + numeric + special + other
+		val combined = upperCase + lowerCase + numeric + symbol + other
 		val secureRandom = SecureRandom.getInstanceStrong()
 		return combined.shuffled(secureRandom).joinToString("")
 	}
