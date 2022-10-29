@@ -14,7 +14,7 @@ class ListCommand(
 	private val vaultService: VaultService
 ): Runnable {
 
-	@CommandLine.Option(names = ["-f", "--format"], description = ["Format of the list output"], defaultValue = "table")
+	@CommandLine.Option(names = ["-f", "--format"], description = ["Format of the list output"], defaultValue = "TABLE")
 	lateinit var format: VaultService.Companion.ListFormat
 
 

@@ -57,26 +57,27 @@
 | microvault set     | :heavy_check_mark:    |
 | microvault generate| :heavy_check_mark:    |
 | microvault list    | :heavy_check_mark:    |
+| microvault publish | :x:                   |
 | microvault open    | :x:                   |
 | microvault close   | :x:                   |
-| microvault publish | :x:                   |
 
 ## Get started
 
 ### Installation
 
 ```shell
-curl https://raw.githubusercontent.com/kpalatzky/microvault/master/src/main/resources/scripts/install.sh | sh
+# TO BE DEFINED
+# curl https://raw.githubusercontent.com/kpalatzky/microvault/master/src/main/resources/scripts/install.sh | sh
 ```
 
 ### Usage
 
 ```shell
 # create a new vault with given password at the given location
-miva --password=YourPassword --file=./micro.vault create
+miva --password=password --file=./micro.vault create
 
 # open a session to continues edit the vault. The command substitution is required to set a environment variable
-$(miva --password=YourPassword --file=./micro.vault open -e) # MICRO_VAULT_SESSION=<SESSION_DATA>
+$(miva --password=password --file=./micro.vault open -e) # MICRO_VAULT_SESSION=<SESSION_DATA>
 
 # add data to the vault
 miva set db.user Admin
@@ -99,7 +100,7 @@ $(miva publish environment) # export DOCKER_PASSWORD=<docker.password>
 $(miva close) # MICRO_VAULT_SESSION=
 
 # Use variable as command
-MIVA="miva --password=YourPassword --file=./micro.vault"
+MIVA="miva --password=password --file=./micro.vault"
 $MIVA get docker.password
 $MIVA publish kubernetes --parameter name=my-secrets
 
