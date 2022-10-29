@@ -1,6 +1,9 @@
 package net.palatzky.microvault.service
 
 import net.palatzky.microvault.encryption.PasswordGenerator
+import net.palatzky.microvault.publish.provider.EnvironmentProvider
+import net.palatzky.microvault.publish.provider.ExportOptions
+import net.palatzky.microvault.publish.provider.KubernetesProvider
 import net.palatzky.microvault.util.*
 import net.palatzky.microvault.vault.DecryptionDecorator
 import net.palatzky.microvault.vault.EncryptionDecorator
@@ -22,13 +25,25 @@ class VaultService {
 		enum class ListFormat {
 			TABLE, PLAIN
 		}
+
+		enum class PublishFormat {
+			ENVIRONMENT,
+			KUBERNETES
+		}
 	}
 
 	private var vault: Vault? = null
 	private var options: Options? = null
 
-	fun publish() {
-		TODO()
+	fun publish(format: PublishFormat) {
+		val vault = verifyVault()
+		val provider = when(format) {
+			PublishFormat.ENVIRONMENT -> EnvironmentProvider()
+			PublishFormat.KUBERNETES -> KubernetesProvider("microvault")
+		}
+
+		val exportOptions = ExportOptions(mapOf())
+		provider.export(vault, exportOptions)
 	}
 
 	fun get(key: String): String? {
@@ -170,3 +185,4 @@ class VaultService {
 
 //--password=password --file=C:\Users\kevin\workspace\microsecrets\micro.vault list --format=TABLE
 //--file=C:\Users\kevin\workspace\microsecrets\micro.vault list --format=TABLE
+//--file=C:\Users\kevin\workspace\microsecrets\micro.vault publish ENVIRONMENT

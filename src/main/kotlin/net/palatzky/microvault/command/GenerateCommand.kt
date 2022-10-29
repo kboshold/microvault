@@ -36,7 +36,7 @@ class GenerateCommand(
 	lateinit var entryCommand: EntryCommand;
 
 	override fun run() {
-		// open vault & get value of passed key
+		// open vault & generate new key
 		vaultService.open(entryCommand.file, entryCommand.key)
 		vaultService.generate(key, length, upperCase, lowerCase, numeric, symbol)
 		vaultService.write(entryCommand.file)

@@ -18,7 +18,7 @@ class PublishCommand(
 	}
 
 	@CommandLine.Parameters(index = "0", description = ["Publishing provider"])
-	lateinit var provider: Provider
+	lateinit var publishFormat: VaultService.Companion.PublishFormat
 
 	@CommandLine.Option(names = ["-m", "--map"], description = ["Mapping for the export. <ExportKey>=<VaultKey>"])
 	var mapping: Map<String, String> = mapOf()
@@ -32,6 +32,6 @@ class PublishCommand(
 	override fun run() {
 		// open vault & get value of passed key
 		vaultService.open(entryCommand.file, entryCommand.key)
-		vaultService.publish()
+		vaultService.publish(publishFormat)
 	}
 }
