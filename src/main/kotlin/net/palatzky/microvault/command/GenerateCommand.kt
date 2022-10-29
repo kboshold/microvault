@@ -2,7 +2,6 @@ package net.palatzky.microvault.command
 
 import net.palatzky.microvault.service.VaultService
 import picocli.CommandLine
-import kotlin.properties.Delegates
 
 /**
  * Sets a value for a key
